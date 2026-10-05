@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WorkActivity | Workplace Activity Log</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #1f2937;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 25px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #d1d5db;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #111827;
+    }
+
+    .intro {
+      text-align: center;
+    }
+
+    .intro h2 {
+      margin-bottom: 8px;
+    }
+
+    .intro p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #2563eb;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .button-area {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 11px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .save-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .clear-btn {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .clear-btn:hover {
+      background: #d1d5db;
+    }
+
+    .danger-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .danger-btn:hover {
+      background: #b91c1c;
+    }
+
+    .success {
+      display: none;
+      margin-top: 12px;
+      padding: 10px;
+      background: #dcfce7;
+      color: #166534;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+
+    .log-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 9px;
+      padding: 15px;
+      margin-bottom: 12px;
+      background: #fafafa;
+    }
+
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .log-date {
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .log-location {
+      color: #2563eb;
+      font-size: 13px;
+    }
+
+    .log-description {
+      color: #374151;
+      font-size: 14px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+    }
+
+    .log-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6b7280;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .privacy {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #1e3a8a;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media (max-width: 650px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>WorkActivity</h1>
+    <p>Structured Workplace Activity & Documentation Log</p>
+  </header>
+
+  <main class="container">
+
+    <section class="card intro">
+      <h2>Workplace Activity Log</h2>
+      <p>
+        Record workplace activities, tasks, observations and relevant notes
+        in a structured and factual format.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Employee Information</h2>
+
+      <div class="info-grid">
+
+        <div>
+          <label for="employeeName">Employee Name</label>
+          <input type="text" id="employeeName" placeholder="Enter your name">
+        </div>
+
+        <div>
+          <label for="employeeId">Employee ID</label>
+          <input type="text" id="employeeId" placeholder="Enter employee ID">
+        </div>
+
+        <div>
+          <label for="company">Company / Organization</label>
+          <input type="text" id="company" placeholder="Enter company name">
+        </div>
+
+        <div>
+          <label for="department">Department / Unit</label>
+          <input type="text" id="department" placeholder="Enter department">
+        </div>
+
+      </div>
+    </section>
+
+    <section class="card">
+
+      <h2>New Activity Record</h2>
+
+      <div class="info-grid">
+
+        <div>
+          <label for="date">Date</label>
+          <input type="date" id="date">
+        </div>
+
+        <div>
+          <label for="time">Time</label>
+          <input type="time" id="time">
+        </div>
+
+        <div>
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="e.g. Office, Warehouse, Store">
+        </div>
+
+        <div>
+          <label for="category">Activity Category</label>
+
+          <select id="category">
+            <option value="">Select category</option>
+            <option>Routine Work</option>
+            <option>Task Assignment</option>
+            <option>Facility / Maintenance</option>
+            <option>Inventory / Stock</option>
+            <option>Safety</option>
+            <option>Workplace Communication</option>
+            <option>Other</option>
+          </select>
+
+        </div>
+
+        <div class="full">
+          <label for="activity">What Happened / Work Activity</label>
+
+          <textarea
+            id="activity"
+            placeholder="Describe the work activity or event factually..."
+          ></textarea>
+
+        </div>
+
+        <div class="full">
+
+          <label for="persons">Persons Involved</label>
+
+          <input
+            type="text"
+            id="persons"
+            placeholder="Names or roles of relevant persons"
+          >
+
+        </div>
+
+        <div class="full">
+
+          <label for="notes">Additional Notes / Evidence Reference</label>
+
+          <textarea
+            id="notes"
+            placeholder="Add relevant notes, document references or follow-up information..."
+          ></textarea>
+
+        </div>
+
+      </div>
+
+      <div class="button-area">
+
+        <button class="save-btn" onclick="saveActivity()">
+          Save Activity
+        </button>
+
+        <button class="clear-btn" onclick="clearForm()">
+          Clear Form
+        </button>
+
+      </div>
+
+      <div class="success" id="successMessage">
+        Activity saved successfully.
+      </div>
+
+    </section>
+
+    <section class="card">
+
+      <h2>Saved Activity Records</h2>
+
+      <div id="activityList">
+        <div class="empty">
+          No activity records saved yet.
+        </div>
+      </div>
+
+      <div class="button-area">
+
+        <button class="danger-btn" onclick="deleteAllActivities()">
+          Delete All Records
+        </button>
+
+      </div>
+
+    </section>
+
+    <section class="card">
+
+      <h2>Privacy Notice</h2>
+
+      <div class="privacy">
+
+        WorkActivity stores records locally in this browser using
+        local storage. Information is not automatically uploaded to
+        a server through this website.
+
+        <br><br>
+
+        For privacy and security, avoid entering passwords,
+        financial information, or highly
