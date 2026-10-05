@@ -1,418 +1,1192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>WorkActivity | Workplace Activity Log</title>
+<title>WorkActivity | Professional Work Portfolio</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    body {
-      background: #f4f6f8;
-      color: #1f2937;
-      line-height: 1.5;
-    }
+body {
+    background: #f4f6f8;
+    color: #1f2937;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 25px 18px;
-      text-align: center;
-    }
+/* HEADER */
+.header {
+    background: #12355b;
+    color: white;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
+.header-left h1 {
+    font-size: 22px;
+}
 
-    header p {
-      color: #d1d5db;
-      font-size: 14px;
+.header-left p {
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: 0.85;
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* MENU */
+.menu {
+    display: none;
+    background: white;
+    position: fixed;
+    right: 15px;
+    top: 70px;
+    width: 240px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 2000;
+}
+
+.menu button {
+    width: 100%;
+    padding: 14px 18px;
+    text-align: left;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: #263238;
+}
+
+.menu button:hover {
+    background: #eef3f8;
+}
+
+/* MAIN */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 18px 50px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* DASHBOARD */
+.hero {
+    background: white;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    margin-bottom: 20px;
+}
+
+.hero h2 {
+    color: #12355b;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+    color: #12355b;
+    margin-bottom: 8px;
+}
+
+.card p,
+.card li {
+    font-size: 14px;
+    color: #59636e;
+    line-height: 1.6;
+}
+
+.card ul {
+    padding-left: 18px;
+}
+
+/* SECTION TITLE */
+.section-title {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.section-title h2 {
+    color: #12355b;
+    margin-bottom: 6px;
+}
+
+.section-title p {
+    color: #68737d;
+}
+
+/* RESPONSIBILITY */
+.responsibility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.responsibility-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    border-left: 5px solid #12355b;
+}
+
+.responsibility-card h3 {
+    color: #12355b;
+    margin-bottom: 10px;
+}
+
+.responsibility-card p {
+    color: #5d6873;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.area-list {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.area-list li {
+    margin-bottom: 5px;
+    color: #4b5563;
+}
+
+/* BUTTONS */
+.btn {
+    margin-top: 15px;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.edit-btn {
+    background: #e9eef4;
+    color: #12355b;
+}
+
+.save-btn {
+    background: #12355b;
+    color: white;
+}
+
+.photo-btn {
+    background: #f0f2f4;
+    color: #333;
+}
+
+/* EDIT AREA */
+.edit-area {
+    display: none;
+    margin-top: 12px;
+}
+
+.edit-area textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ccd3da;
+    border-radius: 7px;
+    resize: vertical;
+}
+
+/* DAILY WORK */
+.work-entry {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.work-entry h3 {
+    color: #12355b;
+    margin-bottom: 7px;
+}
+
+.meta {
+    font-size: 12px;
+    color: #7b8794;
+    margin-bottom: 8px;
+}
+
+/* PROFILE */
+.profile-box {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #64748b;
+    overflow: hidden;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-info h2 {
+    color: #12355b;
+    margin-bottom: 7px;
+}
+
+.profile-info p {
+    color: #66717c;
+    margin-bottom: 4px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 25px;
+    color: #7b8794;
+    font-size: 12px;
+}
+
+/* MOBILE */
+@media(max-width:600px) {
+
+    .header-left h1 {
+        font-size: 19px;
     }
 
     .container {
-      max-width: 950px;
-      margin: 25px auto;
-      padding: 0 15px;
+        padding: 18px 12px 40px;
     }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    .profile-box {
+        flex-direction: column;
+        text-align: center;
     }
 
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      color: #111827;
+    .menu {
+        right: 10px;
+        left: 10px;
+        width: auto;
     }
-
-    .intro {
-      text-align: center;
-    }
-
-    .intro h2 {
-      margin-bottom: 8px;
-    }
-
-    .intro p {
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 11px;
-      border: 1px solid #d1d5db;
-      border-radius: 7px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #2563eb;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .button-area {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-    button {
-      border: none;
-      border-radius: 7px;
-      padding: 11px 18px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .save-btn {
-      background: #2563eb;
-      color: white;
-    }
-
-    .save-btn:hover {
-      background: #1d4ed8;
-    }
-
-    .clear-btn {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    .clear-btn:hover {
-      background: #d1d5db;
-    }
-
-    .danger-btn {
-      background: #dc2626;
-      color: white;
-    }
-
-    .danger-btn:hover {
-      background: #b91c1c;
-    }
-
-    .success {
-      display: none;
-      margin-top: 12px;
-      padding: 10px;
-      background: #dcfce7;
-      color: #166534;
-      border-radius: 7px;
-      font-size: 14px;
-    }
-
-    .log-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 9px;
-      padding: 15px;
-      margin-bottom: 12px;
-      background: #fafafa;
-    }
-
-    .log-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .log-date {
-      font-weight: bold;
-      color: #111827;
-    }
-
-    .log-location {
-      color: #2563eb;
-      font-size: 13px;
-    }
-
-    .log-description {
-      color: #374151;
-      font-size: 14px;
-      margin: 8px 0;
-      white-space: pre-wrap;
-    }
-
-    .log-meta {
-      font-size: 13px;
-      color: #6b7280;
-    }
-
-    .empty {
-      text-align: center;
-      color: #6b7280;
-      padding: 20px;
-      font-size: 14px;
-    }
-
-    .privacy {
-      background: #eff6ff;
-      border-left: 4px solid #2563eb;
-      padding: 14px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #1e3a8a;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px 15px;
-      color: #6b7280;
-      font-size: 13px;
-    }
-
-    @media (max-width: 650px) {
-      header h1 {
-        font-size: 24px;
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .full {
-        grid-column: auto;
-      }
-
-      .card {
-        padding: 16px;
-      }
-
-      button {
-        width: 100%;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>WorkActivity</h1>
-    <p>Structured Workplace Activity & Documentation Log</p>
-  </header>
+<!-- HEADER -->
+<header class="header">
 
-  <main class="container">
+    <div class="header-left">
+        <h1>WorkActivity</h1>
+        <p>Professional Work Activity & Portfolio</p>
+    </div>
 
-    <section class="card intro">
-      <h2>Workplace Activity Log</h2>
-      <p>
-        Record workplace activities, tasks, observations and relevant notes
-        in a structured and factual format.
-      </p>
-    </section>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-    <section class="card">
-      <h2>Employee Information</h2>
+</header>
 
-      <div class="info-grid">
 
-        <div>
-          <label for="employeeName">Employee Name</label>
-          <input type="text" id="employeeName" placeholder="Enter your name">
+<!-- MENU -->
+<div class="menu" id="menu">
+
+    <button onclick="showSection('dashboard')">Dashboard</button>
+
+    <button onclick="showSection('daily')">Daily Work</button>
+
+    <button onclick="showSection('responsibilities')">
+        My Responsibilities
+    </button>
+
+    <button onclick="showSection('experience')">
+        Work Experience
+    </button>
+
+    <button onclick="showSection('education')">
+        Education
+    </button>
+
+    <button onclick="showSection('courses')">
+        Additional Courses
+    </button>
+
+    <button onclick="showSection('skills')">
+        My Skills
+    </button>
+
+    <button onclick="showSection('portfolio')">
+        Portfolio
+    </button>
+
+    <button onclick="showSection('documents')">
+        Documents / Certificates
+    </button>
+
+    <button onclick="showSection('profile')">
+        Profile
+    </button>
+
+</div>
+
+
+<main class="container">
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+    <div class="hero">
+
+        <h2>Welcome to WorkActivity</h2>
+
+        <p>
+            A professional personal work activity and career portfolio
+            designed to document responsibilities, daily activities,
+            skills, experience and professional development.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Daily Operations</h3>
+            <p>
+                Routine workplace activities, area operations,
+                inspections and follow-up.
+            </p>
         </div>
 
-        <div>
-          <label for="employeeId">Employee ID</label>
-          <input type="text" id="employeeId" placeholder="Enter employee ID">
+
+        <div class="card">
+            <h3>Responsibilities</h3>
+            <p>
+                Structured overview of assigned workplace
+                responsibilities.
+            </p>
         </div>
 
-        <div>
-          <label for="company">Company / Organization</label>
-          <input type="text" id="company" placeholder="Enter company name">
+
+        <div class="card">
+            <h3>Work Experience</h3>
+            <p>
+                Professional experience and previous roles.
+            </p>
         </div>
 
-        <div>
-          <label for="department">Department / Unit</label>
-          <input type="text" id="department" placeholder="Enter department">
+
+        <div class="card">
+            <h3>Skills & Development</h3>
+            <p>
+                Professional skills, courses and continuous learning.
+            </p>
         </div>
 
-      </div>
-    </section>
+    </div>
 
-    <section class="card">
+</section>
 
-      <h2>New Activity Record</h2>
 
-      <div class="info-grid">
 
-        <div>
-          <label for="date">Date</label>
-          <input type="date" id="date">
+<!-- DAILY WORK -->
+
+<section id="daily" class="section">
+
+    <div class="section-title">
+
+        <h2>Daily Work</h2>
+
+        <p>
+            Daily and hourly workplace activity documentation.
+        </p>
+
+    </div>
+
+
+    <div class="work-entry">
+
+        <h3>Daily Activity Record</h3>
+
+        <div class="meta">
+            Date: To be updated |
+            Time: To be updated |
+            Area: To be updated
         </div>
 
-        <div>
-          <label for="time">Time</label>
-          <input type="time" id="time">
+        <p>
+            Daily work activities and observations will be
+            recorded here in a structured format.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- RESPONSIBILITIES -->
+
+<section id="responsibilities" class="section">
+
+    <div class="section-title">
+
+        <h2>My Responsibilities</h2>
+
+        <p>
+            Current workplace responsibilities and operational support.
+        </p>
+
+    </div>
+
+
+    <div class="responsibility-grid">
+
+
+        <!-- DAILY AREA -->
+
+        <div class="responsibility-card">
+
+            <h3>1. Daily Area Operations</h3>
+
+            <p>
+                Responsible for routine cleaning, inspection and
+                workplace support across five designated areas,
+                ensuring cleanliness, basic workplace readiness
+                and timely reporting of maintenance or
+                facility-related issues.
+            </p>
+
+            <ul class="area-list">
+
+                <li>Ladies Area 1</li>
+                <li>Ladies Area 2</li>
+                <li>CPD Area</li>
+                <li>Mosque Area</li>
+                <li>Canteen Area</li>
+
+            </ul>
+
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
+
+            <div class="edit-area">
+
+                <textarea>
+Responsible for routine cleaning, inspection and workplace support across five designated areas.
+                </textarea>
+
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
+
         </div>
 
-        <div>
-          <label for="location">Location</label>
-          <input type="text" id="location" placeholder="e.g. Office, Warehouse, Store">
-        </div>
 
-        <div>
-          <label for="category">Activity Category</label>
 
-          <select id="category">
-            <option value="">Select category</option>
-            <option>Routine Work</option>
-            <option>Task Assignment</option>
-            <option>Facility / Maintenance</option>
-            <option>Inventory / Stock</option>
-            <option>Safety</option>
-            <option>Workplace Communication</option>
-            <option>Other</option>
-          </select>
+        <!-- HOURLY -->
 
-        </div>
+        <div class="responsibility-card">
 
-        <div class="full">
-          <label for="activity">What Happened / Work Activity</label>
+            <h3>2. Hourly Activity Monitoring & Documentation</h3>
 
-          <textarea
-            id="activity"
-            placeholder="Describe the work activity or event factually..."
-          ></textarea>
+            <p>
+                Maintain structured activity records throughout
+                the working day, documenting work performed by
+                area, time and relevant observations for accurate
+                follow-up and reporting.
+            </p>
 
-        </div>
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
 
-        <div class="full">
+            <div class="edit-area">
 
-          <label for="persons">Persons Involved</label>
+                <textarea>
+Maintain structured activity records throughout the working day.
+                </textarea>
 
-          <input
-            type="text"
-            id="persons"
-            placeholder="Names or roles of relevant persons"
-          >
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
 
         </div>
 
-        <div class="full">
 
-          <label for="notes">Additional Notes / Evidence Reference</label>
 
-          <textarea
-            id="notes"
-            placeholder="Add relevant notes, document references or follow-up information..."
-          ></textarea>
+        <!-- WEEKLY -->
+
+        <div class="responsibility-card">
+
+            <h3>3. Weekly Cleaning Responsibilities</h3>
+
+            <p>
+                Perform scheduled cleaning and basic upkeep
+                responsibilities as assigned.
+            </p>
+
+            <ul class="area-list">
+
+                <li>Ground Parking Area</li>
+                <li>Grease Trap Box</li>
+
+            </ul>
+
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
+
+            <div class="edit-area">
+
+                <textarea>
+Perform scheduled cleaning and basic upkeep responsibilities as assigned.
+                </textarea>
+
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
 
         </div>
 
-      </div>
 
-      <div class="button-area">
 
-        <button class="save-btn" onclick="saveActivity()">
-          Save Activity
-        </button>
+        <!-- IT -->
 
-        <button class="clear-btn" onclick="clearForm()">
-          Clear Form
-        </button>
+        <div class="responsibility-card">
 
-      </div>
+            <h3>4. IT & Office Equipment Support</h3>
 
-      <div class="success" id="successMessage">
-        Activity saved successfully.
-      </div>
+            <p>
+                Provide physical support to IT Department personnel
+                when requested, including assisting with the safe
+                movement and relocation of laptops, desktop computers
+                and other office equipment.
+            </p>
 
-    </section>
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
 
-    <section class="card">
+            <div class="edit-area">
 
-      <h2>Saved Activity Records</h2>
+                <textarea>
+Provide physical support to IT Department personnel when requested, including assisting with the safe movement and relocation of laptops, desktop computers and other office equipment.
+                </textarea>
 
-      <div id="activityList">
-        <div class="empty">
-          No activity records saved yet.
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
+
         </div>
-      </div>
 
-      <div class="button-area">
 
-        <button class="danger-btn" onclick="deleteAllActivities()">
-          Delete All Records
-        </button>
 
-      </div>
+        <!-- REPORTING -->
 
-    </section>
+        <div class="responsibility-card">
 
-    <section class="card">
+            <h3>5. Workplace Equipment & Facility Reporting</h3>
 
-      <h2>Privacy Notice</h2>
+            <p>
+                Report damaged or malfunctioning workplace items
+                and facility-related issues to the appropriate
+                supervisor or responsible personnel, including
+                providing photos or relevant information when required.
+            </p>
 
-      <div class="privacy">
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
 
-        WorkActivity stores records locally in this browser using
-        local storage. Information is not automatically uploaded to
-        a server through this website.
+            <div class="edit-area">
 
-        <br><br>
+                <textarea>
+Report damaged or malfunctioning workplace items and facility-related issues to the appropriate supervisor or responsible personnel.
+                </textarea>
 
-        For privacy and security, avoid entering passwords,
-        financial information, or highly
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SUPPLIES -->
+
+        <div class="responsibility-card">
+
+            <h3>6. Workplace Supplies & Material Support</h3>
+
+            <p>
+                Assist with receiving, checking, organizing and
+                storing workplace cleaning supplies and materials
+                as assigned.
+            </p>
+
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
+
+            <div class="edit-area">
+
+                <textarea>
+Assist with receiving, checking, organizing and storing workplace cleaning supplies and materials as assigned.
+                </textarea>
+
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- COORDINATION -->
+
+        <div class="responsibility-card">
+
+            <h3>7. Workplace Readiness & Coordination</h3>
+
+            <p>
+                Support day-to-day workplace readiness by completing
+                assigned tasks, coordinating with relevant personnel
+                and following up on identified operational or
+                facility-related requirements.
+            </p>
+
+            <button class="btn edit-btn"
+                    onclick="toggleEdit(this)">
+                Edit
+            </button>
+
+            <div class="edit-area">
+
+                <textarea>
+Support day-to-day workplace readiness by completing assigned tasks, coordinating with relevant personnel and following up on identified operational or facility-related requirements.
+                </textarea>
+
+                <button class="btn save-btn"
+                        onclick="saveEdit(this)">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- EXPERIENCE -->
+
+<section id="experience" class="section">
+
+    <div class="section-title">
+
+        <h2>Work Experience</h2>
+
+        <p>
+            Professional employment history.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Almarai Company</h3>
+
+        <p>
+            Office Staff / Office Attendant<br>
+            HR Division — Facilities & Maintenance Unit<br>
+            Riyadh, Saudi Arabia<br>
+            Since August 2024
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- EDUCATION -->
+
+<section id="education" class="section">
+
+    <div class="section-title">
+
+        <h2>Education</h2>
+
+        <p>
+            Academic background and qualifications.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>BA in History</h3>
+
+            <p>
+                Govt. Brojomohun (B.M.) College /
+                National University, Bangladesh
+            </p>
+
+            <p>
+                2015–2019
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Higher Secondary Certificate</h3>
+
+            <p>
+                Govt. Bakerganj College
+            </p>
+
+            <p>
+                2014
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Secondary School Certificate</h3>
+
+            <p>
+                Bakerganj Govt. Pilot High School
+            </p>
+
+            <p>
+                2012
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- COURSES -->
+
+<section id="courses" class="section">
+
+    <div class="section-title">
+
+        <h2>Additional Courses</h2>
+
+        <p>
+            Professional development and additional learning.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Spanish A1</h3>
+            <p>
+                Beginner Spanish language learning.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Microsoft Excel</h3>
+            <p>
+                Advanced Excel functions and practical
+                data management.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Web Development</h3>
+            <p>
+                HTML5, CSS3 and basic JavaScript.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- SKILLS -->
+
+<section id="skills" class="section">
+
+    <div class="section-title">
+
+        <h2>My Skills</h2>
+
+        <p>
+            Professional and technical capabilities.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Microsoft Excel</h3>
+            <p>
+                SUM, IF, FILTER, XLOOKUP, VBA & Macros
+                (moderate).
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Office Administration</h3>
+            <p>
+                Documentation, coordination, follow-up
+                and workplace support.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Inventory & Stock Support</h3>
+            <p>
+                Stock checking, receiving, organizing and
+                basic inventory documentation.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Digital Skills</h3>
+            <p>
+                Microsoft Word, PowerPoint, Google Workspace,
+                SAP exposure and basic web development.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- PORTFOLIO -->
+
+<section id="portfolio" class="section">
+
+    <div class="section-title">
+
+        <h2>Portfolio</h2>
+
+        <p>
+            Selected personal technology projects.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>WorkSafe Log</h3>
+
+            <p>
+                Privacy-conscious workplace incident
+                documentation and safety log.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>SmartStock Inventory Management System</h3>
+
+            <p>
+                A practical inventory management project
+                focused on stock-in, stock-out and
+                low-stock monitoring.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- DOCUMENTS -->
+
+<section id="documents" class="section">
+
+    <div class="section-title">
+
+        <h2>Documents / Certificates</h2>
+
+        <p>
+            Education certificates and professional
+            training documents will be available here.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Certificate Repository</h3>
+
+        <p>
+            Certificate upload and secure document
+            management will be connected in the next
+            version.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="section">
+
+    <div class="section-title">
+
+        <h2>Profile</h2>
+
+        <p>
+            Professional profile information.
+        </p>
+
+    </div>
+
+
+    <div class="profile-box">
+
+        <div class="profile-photo">
+
+            <span>Photo</span>
+
+        </div>
+
+
+        <div class="profile-info">
+
+            <h2>MD Syful Islam Sohag</h2>
+
+            <p>
+                Office Staff / Office Attendant
+            </p>
+
+            <p>
+                HR Division — Facilities & Maintenance Unit
+            </p>
+
+            <p>
+                Almarai Company — Riyadh, Saudi Arabia
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<footer class="footer">
+
+    WorkActivity © 2026 — Professional Work Activity Portfolio
+
+</footer>
+
+
+
+<script>
+
+function toggleMenu() {
+
+    const menu = document.getElementById("menu");
+
+    if (menu.style.display === "block") {
+
+        menu.style.display = "none";
+
+    } else {
+
+        menu.style.display = "block";
+
+    }
+
+}
+
+
+function showSection(sectionId) {
+
+    const sections =
+        document.querySelectorAll(".section");
+
+    sections.forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+
+    document
+        .getElementById(sectionId)
+        .classList.add("active");
+
+
+    document.getElementById("menu").style.display = "none";
+
+
+    window.scrollTo({
+
+        top: 0,
+        behavior: "smooth"
+
+    });
+
+}
+
+
+function toggleEdit(button) {
+
+    const editArea =
+        button.nextElementSibling;
+
+    if (editArea.style.display === "block") {
+
+        editArea.style.display = "none";
+
+    } else {
+
+        editArea.style.display = "block";
+
+    }
+
+}
+
+
+function saveEdit(button) {
+
+    const editArea =
+        button.parentElement;
+
+    const textarea =
+        editArea.querySelector("textarea");
+
+    const card =
+        editArea.parentElement;
+
+    const paragraph =
+        card.querySelector("p");
+
+    paragraph.textContent =
+        textarea.value.trim();
+
+    editArea.style.display = "none";
+
+    alert("Updated successfully.");
+
+}
+
+</script>
+
+</body>
+</html>
