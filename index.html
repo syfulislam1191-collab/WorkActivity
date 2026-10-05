@@ -1,3286 +1,3177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>WorkActivity | Professional Work Portfolio</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-    background: #f4f6f8;
-    color: #1f2937;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.header {
-    background: #12355b;
-    color: white;
-    padding: 18px 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.header-left h1 {
-    font-size: 22px;
-}
-
-.header-left p {
-    font-size: 12px;
-    margin-top: 4px;
-    opacity: 0.85;
-}
-
-.menu-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-}
-
-/* =========================
-   MENU
-========================= */
-
-.menu {
-    display: none;
-    background: white;
-    position: fixed;
-    right: 15px;
-    top: 70px;
-    width: 240px;
-    max-height: calc(100vh - 90px);
-    overflow-y: auto;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
-    border-radius: 10px;
-    overflow-x: hidden;
-    z-index: 2000;
-}
-
-.menu.show {
-    display: block;
-}
-
-.menu button {
-    width: 100%;
-    padding: 14px 18px;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid #edf0f3;
-    background: white;
-    cursor: pointer;
-    font-size: 14px;
-    color: #263238;
-}
-
-.menu button:hover {
-    background: #eef3f8;
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 25px 18px 50px;
-}
-
-.section {
-    display: none;
-}
-
-.section.active {
-    display: block;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.hero {
-    background: white;
-    padding: 28px;
-    border-radius: 14px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-    margin-bottom: 20px;
-}
-
-.hero h2 {
-    color: #12355b;
-    margin-bottom: 8px;
-}
-
-.hero p {
-    color: #64748b;
-    line-height: 1.6;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-}
-
-.card h3 {
-    color: #12355b;
-    margin-bottom: 8px;
-}
-
-.card p,
-.card li {
-    font-size: 14px;
-    color: #59636e;
-    line-height: 1.6;
-}
-
-.card ul {
-    padding-left: 18px;
-}
-
-/* =========================
-   SECTION TITLE
-========================= */
-
-.section-title {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-}
-
-.section-title h2 {
-    color: #12355b;
-    margin-bottom: 6px;
-}
-
-.section-title p {
-    color: #68737d;
-}
-
-/* =========================
-   RESPONSIBILITIES
-========================= */
-
-.responsibility-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
-}
-
-.responsibility-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
-    border-left: 5px solid #12355b;
-}
-
-.responsibility-card h3 {
-    color: #12355b;
-    margin-bottom: 10px;
-}
-
-.responsibility-card p {
-    color: #5d6873;
-    font-size: 14px;
-    line-height: 1.6;
-    white-space: pre-line;
-}
-
-.area-list {
-    margin-top: 10px;
-    padding-left: 20px;
-}
-
-.area-list li {
-    margin-bottom: 5px;
-    color: #4b5563;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn {
-    margin-top: 15px;
-    padding: 9px 14px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.btn:hover {
-    opacity: 0.88;
-}
-
-.edit-btn {
-    background: #e9eef4;
-    color: #12355b;
-}
-
-.save-btn {
-    background: #12355b;
-    color: white;
-}
-
-.cancel-btn {
-    background: #e5e7eb;
-    color: #374151;
-}
-
-.photo-btn {
-    background: #f0f2f4;
-    color: #333;
-}
-
-.delete-btn {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.primary-btn {
-    background: #12355b;
-    color: white;
-}
-
-/* =========================
-   EDIT AREA
-========================= */
-
-.edit-area {
-    display: none;
-    margin-top: 12px;
-}
-
-.edit-area.show {
-    display: block;
-}
-
-.edit-area textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 10px;
-    border: 1px solid #ccd3da;
-    border-radius: 7px;
-    resize: vertical;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* =========================
-   FORM
-========================= */
-
-.form-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-    margin-bottom: 18px;
-}
-
-.form-card h3 {
-    color: #12355b;
-    margin-bottom: 15px;
-}
-
-.form-group {
-    margin-bottom: 13px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    color: #475569;
-    margin-bottom: 6px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 10px 11px;
-    border: 1px solid #ccd3da;
-    border-radius: 7px;
-    font-size: 14px;
-    background: white;
-}
-
-.form-group textarea {
-    min-height: 110px;
-    resize: vertical;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-/* =========================
-   DAILY WORK
-========================= */
-
-.work-entry {
-    background: white;
-    padding: 18px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-}
-
-.work-entry h3 {
-    color: #12355b;
-    margin-bottom: 7px;
-}
-
-.meta {
-    font-size: 12px;
-    color: #7b8794;
-    margin-bottom: 10px;
-}
-
-.work-description {
-    color: #4b5563;
-    line-height: 1.6;
-    white-space: pre-line;
-}
-
-.entry-photo {
-    width: 100%;
-    max-width: 500px;
-    max-height: 350px;
-    object-fit: cover;
-    border-radius: 9px;
-    margin-top: 12px;
-    display: block;
-}
-
-.entry-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-box {
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-    display: flex;
-    gap: 25px;
-    align-items: center;
-}
-
-.profile-photo-wrapper {
-    text-align: center;
-}
-
-.profile-photo {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: #e5e7eb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #64748b;
-    overflow: hidden;
-    border: 4px solid #e8edf2;
-}
-
-.profile-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-photo span {
-    font-size: 14px;
-}
-
-.profile-info {
-    flex: 1;
-}
-
-.profile-info h2 {
-    color: #12355b;
-    margin-bottom: 7px;
-}
-
-.profile-info p {
-    color: #66717c;
-    margin-bottom: 5px;
-}
-
-/* =========================
-   DOCUMENTS
-========================= */
-
-.document-item {
-    background: white;
-    padding: 16px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-}
-
-.document-name {
-    font-weight: bold;
-    color: #12355b;
-    margin-bottom: 5px;
-    word-break: break-word;
-}
-
-.document-meta {
-    font-size: 12px;
-    color: #7b8794;
-    margin-bottom: 8px;
-}
-
-.document-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.empty-message {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    color: #64748b;
-    text-align: center;
-}
-
-/* =========================
-   PORTFOLIO LINKS
-========================= */
-
-.project-link {
-    display: inline-block;
-    margin-top: 12px;
-    text-decoration: none;
-    background: #12355b;
-    color: white;
-    padding: 9px 13px;
-    border-radius: 7px;
-    font-size: 13px;
-}
-
-/* =========================
-   STATUS MESSAGE
-========================= */
-
-.status-message {
-    display: none;
-    padding: 10px 13px;
-    margin-top: 10px;
-    border-radius: 7px;
-    font-size: 13px;
-    background: #e8f5e9;
-    color: #256029;
-}
-
-.status-message.show {
-    display: block;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-    text-align: center;
-    padding: 25px;
-    color: #7b8794;
-    font-size: 12px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:600px) {
-
-    .header-left h1 {
-        font-size: 19px;
-    }
-
-    .container {
-        padding: 18px 12px 40px;
-    }
-
-    .profile-box {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .profile-info {
-        width: 100%;
-    }
-
-    .menu {
-        right: 10px;
-        left: 10px;
-        width: auto;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .hero {
-        padding: 20px;
-    }
-
-    .section-title {
-        padding: 18px;
-    }
-
-    .responsibility-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .entry-actions,
-    .document-actions {
-        flex-direction: column;
-    }
-
-    .entry-actions .btn,
-    .document-actions .btn {
-        width: 100%;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- =========================
-     HEADER
-========================= -->
-
-<header class="header">
-
-    <div class="header-left">
-
-        <h1>WorkActivity</h1>
-
-        <p>
-            Professional Work Activity & Portfolio
-        </p>
-
-    </div>
-
-    <button
-        class="menu-btn"
-        onclick="toggleMenu()"
-        aria-label="Open menu">
-        ☰
-    </button>
-
-</header>
-
-
-<!-- =========================
-     MENU
-========================= -->
-
-<div class="menu" id="menu">
-
-    <button onclick="showSection('dashboard')">
-        Dashboard
-    </button>
-
-    <button onclick="showSection('daily')">
-        Daily Work
-    </button>
-
-    <button onclick="showSection('responsibilities')">
-        My Responsibilities
-    </button>
-
-    <button onclick="showSection('experience')">
-        Work Experience
-    </button>
-
-    <button onclick="showSection('education')">
-        Education
-    </button>
-
-    <button onclick="showSection('courses')">
-        Additional Courses
-    </button>
-
-    <button onclick="showSection('skills')">
-        My Skills
-    </button>
-
-    <button onclick="showSection('portfolio')">
-        Portfolio
-    </button>
-
-    <button onclick="showSection('documents')">
-        Documents / Certificates
-    </button>
-
-    <button onclick="showSection('profile')">
-        Profile
-    </button>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>WorkActivity | Professional Work Portfolio</title>  <style>  
+  
+* {  
+    box-sizing: border-box;  
+    margin: 0;  
+    padding: 0;  
+    font-family: Arial, Helvetica, sans-serif;  
+}  
+  
+body {  
+    background: #f4f6f8;  
+    color: #1f2937;  
+}  
+  
+/* =========================  
+   HEADER  
+========================= */  
+  
+.header {  
+    background: #12355b;  
+    color: white;  
+    padding: 18px 22px;  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+    position: sticky;  
+    top: 0;  
+    z-index: 1000;  
+}  
+  
+.header-left h1 {  
+    font-size: 22px;  
+}  
+  
+.header-left p {  
+    font-size: 12px;  
+    margin-top: 4px;  
+    opacity: 0.85;  
+}  
+  
+.menu-btn {  
+    background: transparent;  
+    border: none;  
+    color: white;  
+    font-size: 28px;  
+    cursor: pointer;  
+}  
+  
+/* =========================  
+   MENU  
+========================= */  
+  
+.menu {  
+    display: none;  
+    background: white;  
+    position: fixed;  
+    right: 15px;  
+    top: 70px;  
+    width: 240px;  
+    max-height: calc(100vh - 90px);  
+    overflow-y: auto;  
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);  
+    border-radius: 10px;  
+    overflow-x: hidden;  
+    z-index: 2000;  
+}  
+  
+.menu.show {  
+    display: block;  
+}  
+  
+.menu button {  
+    width: 100%;  
+    padding: 14px 18px;  
+    text-align: left;  
+    border: none;  
+    border-bottom: 1px solid #edf0f3;  
+    background: white;  
+    cursor: pointer;  
+    font-size: 14px;  
+    color: #263238;  
+}  
+  
+.menu button:hover {  
+    background: #eef3f8;  
+}  
+  
+/* =========================  
+   MAIN  
+========================= */  
+  
+.container {  
+    max-width: 1100px;  
+    margin: auto;  
+    padding: 25px 18px 50px;  
+}  
+  
+.section {  
+    display: none;  
+}  
+  
+.section.active {  
+    display: block;  
+}  
+  
+/* =========================  
+   DASHBOARD  
+========================= */  
+  
+.hero {  
+    background: white;  
+    padding: 28px;  
+    border-radius: 14px;  
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);  
+    margin-bottom: 20px;  
+}  
+  
+.hero h2 {  
+    color: #12355b;  
+    margin-bottom: 8px;  
+}  
+  
+.hero p {  
+    color: #64748b;  
+    line-height: 1.6;  
+}  
+  
+.cards {  
+    display: grid;  
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));  
+    gap: 15px;  
+}  
+  
+.card {  
+    background: white;  
+    padding: 20px;  
+    border-radius: 12px;  
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);  
+}  
+  
+.card h3 {  
+    color: #12355b;  
+    margin-bottom: 8px;  
+}  
+  
+.card p,  
+.card li {  
+    font-size: 14px;  
+    color: #59636e;  
+    line-height: 1.6;  
+}  
+  
+.card ul {  
+    padding-left: 18px;  
+}  
+  
+/* =========================  
+   SECTION TITLE  
+========================= */  
+  
+.section-title {  
+    background: white;  
+    padding: 22px;  
+    border-radius: 12px;  
+    margin-bottom: 18px;  
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);  
+}  
+  
+.section-title h2 {  
+    color: #12355b;  
+    margin-bottom: 6px;  
+}  
+  
+.section-title p {  
+    color: #68737d;  
+}  
+  
+/* =========================  
+   RESPONSIBILITIES  
+========================= */  
+  
+.responsibility-grid {  
+    display: grid;  
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
+    gap: 18px;  
+}  
+  
+.responsibility-card {  
+    background: white;  
+    border-radius: 12px;  
+    padding: 20px;  
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);  
+    border-left: 5px solid #12355b;  
+}  
+  
+.responsibility-card h3 {  
+    color: #12355b;  
+    margin-bottom: 10px;  
+}  
+  
+.responsibility-card p {  
+    color: #5d6873;  
+    font-size: 14px;  
+    line-height: 1.6;  
+    white-space: pre-line;  
+}  
+  
+.area-list {  
+    margin-top: 10px;  
+    padding-left: 20px;  
+}  
+  
+.area-list li {  
+    margin-bottom: 5px;  
+    color: #4b5563;  
+}  
+  
+/* =========================  
+   BUTTONS  
+========================= */  
+  
+.btn {  
+    margin-top: 15px;  
+    padding: 9px 14px;  
+    border: none;  
+    border-radius: 7px;  
+    cursor: pointer;  
+    font-size: 13px;  
+}  
+  
+.btn:hover {  
+    opacity: 0.88;  
+}  
+  
+.edit-btn {  
+    background: #e9eef4;  
+    color: #12355b;  
+}  
+  
+.save-btn {  
+    background: #12355b;  
+    color: white;  
+}  
+  
+.cancel-btn {  
+    background: #e5e7eb;  
+    color: #374151;  
+}  
+  
+.photo-btn {  
+    background: #f0f2f4;  
+    color: #333;  
+}  
+  
+.delete-btn {  
+    background: #fee2e2;  
+    color: #991b1b;  
+}  
+  
+.primary-btn {  
+    background: #12355b;  
+    color: white;  
+}  
+  
+/* =========================  
+   EDIT AREA  
+========================= */  
+  
+.edit-area {  
+    display: none;  
+    margin-top: 12px;  
+}  
+  
+.edit-area.show {  
+    display: block;  
+}  
+  
+.edit-area textarea {  
+    width: 100%;  
+    min-height: 120px;  
+    padding: 10px;  
+    border: 1px solid #ccd3da;  
+    border-radius: 7px;  
+    resize: vertical;  
+    font-size: 14px;  
+    line-height: 1.5;  
+}  
+  
+/* =========================  
+   FORM  
+========================= */  
+  
+.form-card {  
+    background: white;  
+    padding: 20px;  
+    border-radius: 12px;  
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);  
+    margin-bottom: 18px;  
+}  
+  
+.form-card h3 {  
+    color: #12355b;  
+    margin-bottom: 15px;  
+}  
+  
+.form-group {  
+    margin-bottom: 13px;  
+}  
+  
+.form-group label {  
+    display: block;  
+    font-size: 13px;  
+    font-weight: bold;  
+    color: #475569;  
+    margin-bottom: 6px;  
+}  
+  
+.form-group input,  
+.form-group textarea,  
+.form-group select {  
+    width: 100%;  
+    padding: 10px 11px;  
+    border: 1px solid #ccd3da;  
+    border-radius: 7px;  
+    font-size: 14px;  
+    background: white;  
+}  
+  
+.form-group textarea {  
+    min-height: 110px;  
+    resize: vertical;  
+}  
+  
+.form-row {  
+    display: grid;  
+    grid-template-columns: 1fr 1fr;  
+    gap: 12px;  
+}  
+  
+/* =========================  
+   DAILY WORK  
+========================= */  
+  
+.work-entry {  
+    background: white;  
+    padding: 18px;  
+    border-radius: 12px;  
+    margin-bottom: 15px;  
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);  
+}  
+  
+.work-entry h3 {  
+    color: #12355b;  
+    margin-bottom: 7px;  
+}  
+  
+.meta {  
+    font-size: 12px;  
+    color: #7b8794;  
+    margin-bottom: 10px;  
+}  
+  
+.work-description {  
+    color: #4b5563;  
+    line-height: 1.6;  
+    white-space: pre-line;  
+}  
+  
+.entry-photo {  
+    width: 100%;  
+    max-width: 500px;  
+    max-height: 350px;  
+    object-fit: cover;  
+    border-radius: 9px;  
+    margin-top: 12px;  
+    display: block;  
+}  
+  
+.entry-actions {  
+    display: flex;  
+    gap: 8px;  
+    flex-wrap: wrap;  
+}  
+  
+/* =========================  
+   PROFILE  
+========================= */  
+  
+.profile-box {  
+    background: white;  
+    padding: 25px;  
+    border-radius: 14px;  
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);  
+    display: flex;  
+    gap: 25px;  
+    align-items: center;  
+}  
+  
+.profile-photo-wrapper {  
+    text-align: center;  
+}  
+  
+.profile-photo {  
+    width: 140px;  
+    height: 140px;  
+    border-radius: 50%;  
+    background: #e5e7eb;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    color: #64748b;  
+    overflow: hidden;  
+    border: 4px solid #e8edf2;  
+}  
+  
+.profile-photo img {  
+    width: 100%;  
+    height: 100%;  
+    object-fit: cover;  
+}  
+  
+.profile-photo span {  
+    font-size: 14px;  
+}  
+  
+.profile-info {  
+    flex: 1;  
+}  
+  
+.profile-info h2 {  
+    color: #12355b;  
+    margin-bottom: 7px;  
+}  
+  
+.profile-info p {  
+    color: #66717c;  
+    margin-bottom: 5px;  
+}  
+  
+/* =========================  
+   DOCUMENTS  
+========================= */  
+  
+.document-item {  
+    background: white;  
+    padding: 16px;  
+    border-radius: 10px;  
+    margin-bottom: 12px;  
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);  
+}  
+  
+.document-name {  
+    font-weight: bold;  
+    color: #12355b;  
+    margin-bottom: 5px;  
+    word-break: break-word;  
+}  
+  
+.document-meta {  
+    font-size: 12px;  
+    color: #7b8794;  
+    margin-bottom: 8px;  
+}  
+  
+.document-actions {  
+    display: flex;  
+    gap: 8px;  
+    flex-wrap: wrap;  
+}  
+  
+.empty-message {  
+    background: white;  
+    padding: 20px;  
+    border-radius: 10px;  
+    color: #64748b;  
+    text-align: center;  
+}  
+  
+/* =========================  
+   PORTFOLIO LINKS  
+========================= */  
+  
+.project-link {  
+    display: inline-block;  
+    margin-top: 12px;  
+    text-decoration: none;  
+    background: #12355b;  
+    color: white;  
+    padding: 9px 13px;  
+    border-radius: 7px;  
+    font-size: 13px;  
+}  
+  
+/* =========================  
+   STATUS MESSAGE  
+========================= */  
+  
+.status-message {  
+    display: none;  
+    padding: 10px 13px;  
+    margin-top: 10px;  
+    border-radius: 7px;  
+    font-size: 13px;  
+    background: #e8f5e9;  
+    color: #256029;  
+}  
+  
+.status-message.show {  
+    display: block;  
+}  
+  
+/* =========================  
+   FOOTER  
+========================= */  
+  
+.footer {  
+    text-align: center;  
+    padding: 25px;  
+    color: #7b8794;  
+    font-size: 12px;  
+}  
+  
+/* =========================  
+   MOBILE  
+========================= */  
+  
+@media(max-width:600px) {  
+  
+    .header-left h1 {  
+        font-size: 19px;  
+    }  
+  
+    .container {  
+        padding: 18px 12px 40px;  
+    }  
+  
+    .profile-box {  
+        flex-direction: column;  
+        text-align: center;  
+    }  
+  
+    .profile-info {  
+        width: 100%;  
+    }  
+  
+    .menu {  
+        right: 10px;  
+        left: 10px;  
+        width: auto;  
+    }  
+  
+    .form-row {  
+        grid-template-columns: 1fr;  
+    }  
+  
+    .hero {  
+        padding: 20px;  
+    }  
+  
+    .section-title {  
+        padding: 18px;  
+    }  
+  
+    .responsibility-grid {  
+        grid-template-columns: 1fr;  
+    }  
+  
+    .entry-actions,  
+    .document-actions {  
+        flex-direction: column;  
+    }  
+  
+    .entry-actions .btn,  
+    .document-actions .btn {  
+        width: 100%;  
+    }  
+}  
+  
+</style>  </head>  <body>  <!-- =========================  
+     HEADER  
+========================= -->  <header class="header">  <div class="header-left">  
+
+    <h1>WorkActivity</h1>  
+
+    <p>  
+        Professional Work Activity & Portfolio  
+    </p>  
+
+</div>  
+
+<button  
+    class="menu-btn"  
+    onclick="toggleMenu()"  
+    aria-label="Open menu">  
+    ☰  
+</button>
+
+</header>  <!-- =========================  
+     MENU  
+========================= -->  <div class="menu" id="menu">  <button onclick="showSection('dashboard')">  
+    Dashboard  
+</button>  
+
+<button onclick="showSection('daily')">  
+    Daily Work  
+</button>  
+
+<button onclick="showSection('responsibilities')">  
+    My Responsibilities  
+</button>  
+
+<button onclick="showSection('experience')">  
+    Work Experience  
+</button>  
+
+<button onclick="showSection('education')">  
+    Education  
+</button>  
+
+<button onclick="showSection('courses')">  
+    Additional Courses  
+</button>  
+
+<button onclick="showSection('skills')">  
+    My Skills  
+</button>  
+
+<button onclick="showSection('portfolio')">  
+    Portfolio  
+</button>  
+
+<button onclick="showSection('documents')">  
+    Documents / Certificates  
+</button>  
+
+<button onclick="showSection('profile')">  
+    Profile  
+</button>
+
+</div>  <main class="container">  <!-- =========================  
+     DASHBOARD  
+========================= -->  <section id="dashboard" class="section active">  <div class="hero">  
+
+    <h2>Welcome to WorkActivity</h2>  
+
+    <p>  
+        A professional personal work activity and career portfolio  
+        designed to document responsibilities, daily activities,  
+        skills, experience and professional development.  
+    </p>  
+
+</div>  
+
+
+<div class="cards">  
+
+    <div class="card">  
+
+        <h3>Daily Operations</h3>  
+
+        <p>  
+            Routine workplace activities, area operations,  
+            inspections and follow-up.  
+        </p>  
+
+    </div>  
+
+
+    <div class="card">  
+
+        <h3>Responsibilities</h3>  
+
+        <p>  
+            Structured overview of assigned workplace  
+            responsibilities.  
+        </p>  
+
+    </div>  
+
+
+    <div class="card">  
+
+        <h3>Work Experience</h3>  
+
+        <p>  
+            Professional experience and previous roles.  
+        </p>  
+
+    </div>  
+
+
+    <div class="card">  
+
+        <h3>Skills & Development</h3>  
+
+        <p>  
+            Professional skills, courses and continuous learning.  
+        </p>  
+
+    </div>  
 
 </div>
 
+</section>  <!-- =========================  
+     DAILY WORK  
+========================= -->  <section id="daily" class="section">  <div class="section-title">  
 
-<main class="container">
+    <h2>Daily Work</h2>  
 
+    <p>  
+        Add and maintain structured workplace activity records.  
+    </p>  
 
-<!-- =========================
-     DASHBOARD
-========================= -->
+</div>  
 
-<section id="dashboard" class="section active">
 
-    <div class="hero">
+<div class="form-card">  
 
-        <h2>Welcome to WorkActivity</h2>
+    <h3>Add Daily Activity</h3>  
 
-        <p>
-            A professional personal work activity and career portfolio
-            designed to document responsibilities, daily activities,
-            skills, experience and professional development.
-        </p>
 
-    </div>
+    <div class="form-row">  
 
+        <div class="form-group">  
 
-    <div class="cards">
+            <label for="workDate">  
+                Date  
+            </label>  
 
-        <div class="card">
+            <input  
+                type="date"  
+                id="workDate">  
 
-            <h3>Daily Operations</h3>
+        </div>  
 
-            <p>
-                Routine workplace activities, area operations,
-                inspections and follow-up.
-            </p>
 
-        </div>
+        <div class="form-group">  
 
+            <label for="workTime">  
+                Time  
+            </label>  
 
-        <div class="card">
+            <input  
+                type="time"  
+                id="workTime">  
 
-            <h3>Responsibilities</h3>
+        </div>  
 
-            <p>
-                Structured overview of assigned workplace
-                responsibilities.
-            </p>
+    </div>  
 
-        </div>
 
+    <div class="form-group">  
 
-        <div class="card">
+        <label for="workArea">  
+            Area  
+        </label>  
 
-            <h3>Work Experience</h3>
+        <input  
+            type="text"  
+            id="workArea"  
+            placeholder="Example: Canteen Area">  
 
-            <p>
-                Professional experience and previous roles.
-            </p>
+    </div>  
 
-        </div>
 
+    <div class="form-group">  
 
-        <div class="card">
+        <label for="workTitle">  
+            Activity Title  
+        </label>  
 
-            <h3>Skills & Development</h3>
+        <input  
+            type="text"  
+            id="workTitle"  
+            placeholder="Example: Morning Area Inspection">  
 
-            <p>
-                Professional skills, courses and continuous learning.
-            </p>
+    </div>  
 
-        </div>
 
-    </div>
+    <div class="form-group">  
 
-</section>
+        <label for="workDescription">  
+            Description  
+        </label>  
 
+        <textarea  
+            id="workDescription"  
+            placeholder="Describe the work performed..."></textarea>  
 
-<!-- =========================
-     DAILY WORK
-========================= -->
+    </div>  
 
-<section id="daily" class="section">
 
-    <div class="section-title">
+    <div class="form-group">  
 
-        <h2>Daily Work</h2>
+        <label for="workPhoto">  
+            Optional Photo  
+        </label>  
 
-        <p>
-            Add and maintain structured workplace activity records.
-        </p>
+        <input  
+            type="file"  
+            id="workPhoto"  
+            accept="image/*">  
 
-    </div>
+    </div>  
 
 
-    <div class="form-card">
+    <button  
+        class="btn primary-btn"  
+        onclick="addDailyWork()">  
 
-        <h3>Add Daily Activity</h3>
+        Add Activity  
 
+    </button>  
 
-        <div class="form-row">
 
-            <div class="form-group">
+    <div  
+        id="dailyStatus"  
+        class="status-message">  
+    </div>  
 
-                <label for="workDate">
-                    Date
-                </label>
+</div>  
 
-                <input
-                    type="date"
-                    id="workDate">
 
-            </div>
+<div id="dailyWorkList"></div>
 
+</section>  <!-- =========================  
+     RESPONSIBILITIES  
+========================= -->  <section id="responsibilities" class="section">  <div class="section-title">  
 
-            <div class="form-group">
+    <h2>My Responsibilities</h2>  
 
-                <label for="workTime">
-                    Time
-                </label>
+    <p>  
+        Current workplace responsibilities and operational support.  
+    </p>  
 
-                <input
-                    type="time"
-                    id="workTime">
+</div>  
 
-            </div>
 
-        </div>
+<div class="responsibility-grid">  
 
 
-        <div class="form-group">
+    <div class="responsibility-card">  
 
-            <label for="workArea">
-                Area
-            </label>
+        <h3>1. Daily Area Operations</h3>  
 
-            <input
-                type="text"
-                id="workArea"
-                placeholder="Example: Canteen Area">
+        <p class="responsibility-text">  
+            Responsible for routine cleaning, inspection and workplace support across five designated areas, ensuring cleanliness, basic workplace readiness and timely reporting of maintenance or facility-related issues.  
+        </p>  
 
-        </div>
+        <ul class="area-list">  
 
+            <li>Ladies Area 1</li>  
+            <li>Ladies Area 2</li>  
+            <li>CPD Area</li>  
+            <li>Mosque Area</li>  
+            <li>Canteen Area</li>  
 
-        <div class="form-group">
+        </ul>  
 
-            <label for="workTitle">
-                Activity Title
-            </label>
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-            <input
-                type="text"
-                id="workTitle"
-                placeholder="Example: Morning Area Inspection">
+        <div class="edit-area">  
 
-        </div>
+            <textarea>Responsible for routine cleaning, inspection and workplace support across five designated areas, ensuring cleanliness, basic workplace readiness and timely reporting of maintenance or facility-related issues.</textarea>  
 
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-        <div class="form-group">
+        </div>  
 
-            <label for="workDescription">
-                Description
-            </label>
+    </div>  
 
-            <textarea
-                id="workDescription"
-                placeholder="Describe the work performed..."></textarea>
 
-        </div>
+    <div class="responsibility-card">  
 
+        <h3>2. Hourly Activity Monitoring & Documentation</h3>  
 
-        <div class="form-group">
+        <p class="responsibility-text">  
+            Maintain structured activity records throughout the working day, documenting work performed by area, time and relevant observations for accurate follow-up and reporting.  
+        </p>  
 
-            <label for="workPhoto">
-                Optional Photo
-            </label>
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-            <input
-                type="file"
-                id="workPhoto"
-                accept="image/*">
+        <div class="edit-area">  
 
-        </div>
+            <textarea>Maintain structured activity records throughout the working day, documenting work performed by area, time and relevant observations for accurate follow-up and reporting.</textarea>  
 
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-        <button
-            class="btn primary-btn"
-            onclick="addDailyWork()">
+        </div>  
 
-            Add Activity
+    </div>  
 
-        </button>
 
+    <div class="responsibility-card">  
 
-        <div
-            id="dailyStatus"
-            class="status-message">
-        </div>
+        <h3>3. Weekly Cleaning Responsibilities</h3>  
 
-    </div>
+        <p class="responsibility-text">  
+            Perform scheduled cleaning and basic upkeep responsibilities as assigned.  
+        </p>  
 
+        <ul class="area-list">  
 
-    <div id="dailyWorkList"></div>
+            <li>Ground Parking Area</li>  
+            <li>Grease Trap Box</li>  
 
-</section>
+        </ul>  
 
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-<!-- =========================
-     RESPONSIBILITIES
-========================= -->
+        <div class="edit-area">  
 
-<section id="responsibilities" class="section">
+            <textarea>Perform scheduled cleaning and basic upkeep responsibilities as assigned.</textarea>  
 
-    <div class="section-title">
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-        <h2>My Responsibilities</h2>
+        </div>  
 
-        <p>
-            Current workplace responsibilities and operational support.
-        </p>
+    </div>  
 
-    </div>
 
+    <div class="responsibility-card">  
 
-    <div class="responsibility-grid">
+        <h3>4. IT & Office Equipment Support</h3>  
 
+        <p class="responsibility-text">  
+            Provide physical support to IT Department personnel when requested, including assisting with the safe movement and relocation of laptops, desktop computers and other office equipment.  
+        </p>  
 
-        <div class="responsibility-card">
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-            <h3>1. Daily Area Operations</h3>
+        <div class="edit-area">  
 
-            <p class="responsibility-text">
-                Responsible for routine cleaning, inspection and workplace support across five designated areas, ensuring cleanliness, basic workplace readiness and timely reporting of maintenance or facility-related issues.
-            </p>
+            <textarea>Provide physical support to IT Department personnel when requested, including assisting with the safe movement and relocation of laptops, desktop computers and other office equipment.</textarea>  
 
-            <ul class="area-list">
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-                <li>Ladies Area 1</li>
-                <li>Ladies Area 2</li>
-                <li>CPD Area</li>
-                <li>Mosque Area</li>
-                <li>Canteen Area</li>
+        </div>  
 
-            </ul>
+    </div>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
 
-            <div class="edit-area">
+    <div class="responsibility-card">  
 
-                <textarea>Responsible for routine cleaning, inspection and workplace support across five designated areas, ensuring cleanliness, basic workplace readiness and timely reporting of maintenance or facility-related issues.</textarea>
+        <h3>5. Workplace Equipment & Facility Reporting</h3>  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+        <p class="responsibility-text">  
+            Report damaged or malfunctioning workplace items and facility-related issues to the appropriate supervisor or responsible personnel, including providing photos or relevant information when required.  
+        </p>  
 
-            </div>
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-        </div>
+        <div class="edit-area">  
 
+            <textarea>Report damaged or malfunctioning workplace items and facility-related issues to the appropriate supervisor or responsible personnel, including providing photos or relevant information when required.</textarea>  
 
-        <div class="responsibility-card">
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-            <h3>2. Hourly Activity Monitoring & Documentation</h3>
+        </div>  
 
-            <p class="responsibility-text">
-                Maintain structured activity records throughout the working day, documenting work performed by area, time and relevant observations for accurate follow-up and reporting.
-            </p>
+    </div>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
 
-            <div class="edit-area">
+    <div class="responsibility-card">  
 
-                <textarea>Maintain structured activity records throughout the working day, documenting work performed by area, time and relevant observations for accurate follow-up and reporting.</textarea>
+        <h3>6. Workplace Supplies & Material Support</h3>  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+        <p class="responsibility-text">  
+            Assist with receiving, checking, organizing and storing workplace cleaning supplies and materials as assigned.  
+        </p>  
 
-            </div>
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-        </div>
+        <div class="edit-area">  
 
+            <textarea>Assist with receiving, checking, organizing and storing workplace cleaning supplies and materials as assigned.</textarea>  
 
-        <div class="responsibility-card">
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-            <h3>3. Weekly Cleaning Responsibilities</h3>
+        </div>  
 
-            <p class="responsibility-text">
-                Perform scheduled cleaning and basic upkeep responsibilities as assigned.
-            </p>
+    </div>  
 
-            <ul class="area-list">
 
-                <li>Ground Parking Area</li>
-                <li>Grease Trap Box</li>
+    <div class="responsibility-card">  
 
-            </ul>
+        <h3>7. Workplace Readiness & Coordination</h3>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
+        <p class="responsibility-text">  
+            Support day-to-day workplace readiness by completing assigned tasks, coordinating with relevant personnel and following up on identified operational or facility-related requirements.  
+        </p>  
 
-            <div class="edit-area">
+        <button  
+            class="btn edit-btn"  
+            onclick="toggleEdit(this)">  
+            Edit  
+        </button>  
 
-                <textarea>Perform scheduled cleaning and basic upkeep responsibilities as assigned.</textarea>
+        <div class="edit-area">  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+            <textarea>Support day-to-day workplace readiness by completing assigned tasks, coordinating with relevant personnel and following up on identified operational or facility-related requirements.</textarea>  
 
-            </div>
+            <button  
+                class="btn save-btn"  
+                onclick="saveEdit(this)">  
+                Save  
+            </button>  
 
-        </div>
+        </div>  
 
+    </div>  
 
-        <div class="responsibility-card">
+</div>
 
-            <h3>4. IT & Office Equipment Support</h3>
+</section>  <!-- =========================  
+     EXPERIENCE  
+========================= -->  <section id="experience" class="section">  <div class="section-title">  
 
-            <p class="responsibility-text">
-                Provide physical support to IT Department personnel when requested, including assisting with the safe movement and relocation of laptops, desktop computers and other office equipment.
-            </p>
+    <h2>Work Experience</h2>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
+    <p>  
+        Professional employment history.  
+    </p>  
 
-            <div class="edit-area">
+</div>  
 
-                <textarea>Provide physical support to IT Department personnel when requested, including assisting with the safe movement and relocation of laptops, desktop computers and other office equipment.</textarea>
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+<div class="card">  
 
-            </div>
+    <h3>Almarai Company</h3>  
 
-        </div>
+    <p>  
+        Office Staff / Office Attendant<br>  
+        HR Division — Facilities & Maintenance Unit<br>  
+        Riyadh, Saudi Arabia<br>  
+        Since August 2024  
+    </p>  
 
+</div>
 
-        <div class="responsibility-card">
+</section>  <!-- =========================  
+     EDUCATION  
+========================= -->  <section id="education" class="section">  <div class="section-title">  
 
-            <h3>5. Workplace Equipment & Facility Reporting</h3>
+    <h2>Education</h2>  
 
-            <p class="responsibility-text">
-                Report damaged or malfunctioning workplace items and facility-related issues to the appropriate supervisor or responsible personnel, including providing photos or relevant information when required.
-            </p>
+    <p>  
+        Academic background and qualifications.  
+    </p>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
+</div>  
 
-            <div class="edit-area">
 
-                <textarea>Report damaged or malfunctioning workplace items and facility-related issues to the appropriate supervisor or responsible personnel, including providing photos or relevant information when required.</textarea>
+<div class="cards">  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+    <div class="card">  
 
-            </div>
+        <h3>BA in History</h3>  
 
-        </div>
+        <p>  
+            Govt. Brojomohun (B.M.) College /  
+            National University, Bangladesh  
+        </p>  
 
+        <p>  
+            2015–2019  
+        </p>  
 
-        <div class="responsibility-card">
+    </div>  
 
-            <h3>6. Workplace Supplies & Material Support</h3>
 
-            <p class="responsibility-text">
-                Assist with receiving, checking, organizing and storing workplace cleaning supplies and materials as assigned.
-            </p>
+    <div class="card">  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
+        <h3>Higher Secondary Certificate</h3>  
 
-            <div class="edit-area">
+        <p>  
+            Govt. Bakerganj College  
+        </p>  
 
-                <textarea>Assist with receiving, checking, organizing and storing workplace cleaning supplies and materials as assigned.</textarea>
+        <p>  
+            2014  
+        </p>  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+    </div>  
 
-            </div>
 
-        </div>
+    <div class="card">  
 
+        <h3>Secondary School Certificate</h3>  
 
-        <div class="responsibility-card">
+        <p>  
+            Bakerganj Govt. Pilot High School  
+        </p>  
 
-            <h3>7. Workplace Readiness & Coordination</h3>
+        <p>  
+            2012  
+        </p>  
 
-            <p class="responsibility-text">
-                Support day-to-day workplace readiness by completing assigned tasks, coordinating with relevant personnel and following up on identified operational or facility-related requirements.
-            </p>
+    </div>  
 
-            <button
-                class="btn edit-btn"
-                onclick="toggleEdit(this)">
-                Edit
-            </button>
+</div>
 
-            <div class="edit-area">
+</section>  <!-- =========================  
+     COURSES  
+========================= -->  <section id="courses" class="section">  <div class="section-title">  
 
-                <textarea>Support day-to-day workplace readiness by completing assigned tasks, coordinating with relevant personnel and following up on identified operational or facility-related requirements.</textarea>
+    <h2>Additional Courses</h2>  
 
-                <button
-                    class="btn save-btn"
-                    onclick="saveEdit(this)">
-                    Save
-                </button>
+    <p>  
+        Professional development and additional learning.  
+    </p>  
 
-            </div>
+</div>  
 
-        </div>
 
-    </div>
+<div class="cards">  
 
-</section>
+    <div class="card">  
 
+        <h3>Spanish A1</h3>  
 
-<!-- =========================
-     EXPERIENCE
-========================= -->
+        <p>  
+            Beginner Spanish language learning.  
+        </p>  
 
-<section id="experience" class="section">
+    </div>  
 
-    <div class="section-title">
 
-        <h2>Work Experience</h2>
+    <div class="card">  
 
-        <p>
-            Professional employment history.
-        </p>
+        <h3>Microsoft Excel</h3>  
 
-    </div>
+        <p>  
+            Advanced Excel functions and practical  
+            data management.  
+        </p>  
 
+    </div>  
 
-    <div class="card">
 
-        <h3>Almarai Company</h3>
+    <div class="card">  
 
-        <p>
-            Office Staff / Office Attendant<br>
-            HR Division — Facilities & Maintenance Unit<br>
-            Riyadh, Saudi Arabia<br>
-            Since August 2024
-        </p>
+        <h3>Web Development</h3>  
 
-    </div>
+        <p>  
+            HTML5, CSS3 and basic JavaScript.  
+        </p>  
 
-</section>
+    </div>  
 
+</div>
 
-<!-- =========================
-     EDUCATION
-========================= -->
+</section>  <!-- =========================  
+     SKILLS  
+========================= -->  <section id="skills" class="section">  <div class="section-title">  
 
-<section id="education" class="section">
+    <h2>My Skills</h2>  
 
-    <div class="section-title">
+    <p>  
+        Professional and technical capabilities.  
+    </p>  
 
-        <h2>Education</h2>
+</div>  
 
-        <p>
-            Academic background and qualifications.
-        </p>
 
-    </div>
+<div class="cards">  
 
+    <div class="card">  
 
-    <div class="cards">
+        <h3>Microsoft Excel</h3>  
 
-        <div class="card">
+        <p>  
+            SUM, IF, FILTER, XLOOKUP, VBA & Macros  
+            (moderate).  
+        </p>  
 
-            <h3>BA in History</h3>
+    </div>  
 
-            <p>
-                Govt. Brojomohun (B.M.) College /
-                National University, Bangladesh
-            </p>
 
-            <p>
-                2015–2019
-            </p>
+    <div class="card">  
 
-        </div>
+        <h3>Office Administration</h3>  
 
+        <p>  
+            Documentation, coordination, follow-up  
+            and workplace support.  
+        </p>  
 
-        <div class="card">
+    </div>  
 
-            <h3>Higher Secondary Certificate</h3>
 
-            <p>
-                Govt. Bakerganj College
-            </p>
+    <div class="card">  
 
-            <p>
-                2014
-            </p>
+        <h3>Inventory & Stock Support</h3>  
 
-        </div>
+        <p>  
+            Stock checking, receiving, organizing and  
+            basic inventory documentation.  
+        </p>  
 
+    </div>  
 
-        <div class="card">
 
-            <h3>Secondary School Certificate</h3>
+    <div class="card">  
 
-            <p>
-                Bakerganj Govt. Pilot High School
-            </p>
+        <h3>Digital Skills</h3>  
 
-            <p>
-                2012
-            </p>
+        <p>  
+            Microsoft Word, PowerPoint, Google Workspace,  
+            SAP exposure and basic web development.  
+        </p>  
 
-        </div>
+    </div>  
 
-    </div>
+</div>
 
-</section>
+</section>  <!-- =========================  
+     PORTFOLIO  
+========================= -->  <section id="portfolio" class="section">  <div class="section-title">  
 
+    <h2>Portfolio</h2>  
 
-<!-- =========================
-     COURSES
-========================= -->
+    <p>  
+        Selected personal technology projects.  
+    </p>  
 
-<section id="courses" class="section">
+</div>  
 
-    <div class="section-title">
 
-        <h2>Additional Courses</h2>
+<div class="cards">  
 
-        <p>
-            Professional development and additional learning.
-        </p>
+    <div class="card">  
 
-    </div>
+        <h3>WorkSafe Log</h3>  
 
+        <p>  
+            Privacy-conscious workplace incident  
+            documentation and safety log.  
+        </p>  
 
-    <div class="cards">
+        <a  
+            class="project-link"  
+            href="https://syfulislam1191-collab.github.io/WorkSafe-Log/"  
+            target="_blank"  
+            rel="noopener">  
+            Open Project  
+        </a>  
 
-        <div class="card">
+    </div>  
 
-            <h3>Spanish A1</h3>
 
-            <p>
-                Beginner Spanish language learning.
-            </p>
+    <div class="card">  
 
-        </div>
+        <h3>SmartStock Inventory Management System</h3>  
 
+        <p>  
+            A practical inventory management project  
+            focused on stock-in, stock-out and  
+            low-stock monitoring.  
+        </p>  
 
-        <div class="card">
+    </div>  
 
-            <h3>Microsoft Excel</h3>
+</div>
 
-            <p>
-                Advanced Excel functions and practical
-                data management.
-            </p>
+</section>  <!-- =========================  
+     DOCUMENTS  
+========================= -->  <section id="documents" class="section">  <div class="section-title">  
 
-        </div>
+    <h2>Documents / Certificates</h2>  
 
+    <p>  
+        Upload and manage your certificates and professional documents.  
+    </p>  
 
-        <div class="card">
+</div>  
 
-            <h3>Web Development</h3>
 
-            <p>
-                HTML5, CSS3 and basic JavaScript.
-            </p>
+<div class="form-card">  
 
-        </div>
+    <h3>Upload Document</h3>  
 
-    </div>
 
-</section>
+    <div class="form-group">  
 
+        <label for="documentFile">  
+            Select PDF or Image  
+        </label>  
 
-<!-- =========================
-     SKILLS
-========================= -->
+        <input  
+            type="file"  
+            id="documentFile"  
+            accept=".pdf,image/*">  
 
-<section id="skills" class="section">
+    </div>  
 
-    <div class="section-title">
 
-        <h2>My Skills</h2>
+    <button  
+        class="btn primary-btn"  
+        onclick="uploadDocument()">  
 
-        <p>
-            Professional and technical capabilities.
-        </p>
+        Upload Document  
 
-    </div>
+    </button>  
 
 
-    <div class="cards">
+    <div  
+        id="documentStatus"  
+        class="status-message">  
+    </div>  
 
-        <div class="card">
+</div>  
 
-            <h3>Microsoft Excel</h3>
 
-            <p>
-                SUM, IF, FILTER, XLOOKUP, VBA & Macros
-                (moderate).
-            </p>
+<div id="documentList"></div>
 
-        </div>
+</section>  <!-- =========================  
+     PROFILE  
+========================= -->  <section id="profile" class="section">  <div class="section-title">  
 
+    <h2>Profile</h2>  
 
-        <div class="card">
+    <p>  
+        Professional profile information.  
+    </p>  
 
-            <h3>Office Administration</h3>
+</div>  
 
-            <p>
-                Documentation, coordination, follow-up
-                and workplace support.
-            </p>
 
-        </div>
+<div class="profile-box">  
 
 
-        <div class="card">
+    <div class="profile-photo-wrapper">  
 
-            <h3>Inventory & Stock Support</h3>
+        <div class="profile-photo">  
 
-            <p>
-                Stock checking, receiving, organizing and
-                basic inventory documentation.
-            </p>
+            <img  
+                id="profileImage"  
+                alt="Profile Photo"  
+                style="display:none;">  
 
-        </div>
+            <span id="profilePlaceholder">  
+                Photo  
+            </span>  
 
+        </div>  
 
-        <div class="card">
 
-            <h3>Digital Skills</h3>
+        <input  
+            type="file"  
+            id="profilePhotoInput"  
+            accept="image/*"  
+            style="display:none;"  
+            onchange="uploadProfilePhoto(event)">  
 
-            <p>
-                Microsoft Word, PowerPoint, Google Workspace,
-                SAP exposure and basic web development.
-            </p>
 
-        </div>
+        <button  
+            class="btn photo-btn"  
+            onclick="document.getElementById('profilePhotoInput').click()">  
 
-    </div>
+            Upload Photo  
 
-</section>
+        </button>  
 
 
-<!-- =========================
-     PORTFOLIO
-========================= -->
+        <button  
+            class="btn delete-btn"  
+            onclick="removeProfilePhoto()">  
 
-<section id="portfolio" class="section">
+            Remove Photo  
 
-    <div class="section-title">
+        </button>  
 
-        <h2>Portfolio</h2>
+    </div>  
 
-        <p>
-            Selected personal technology projects.
-        </p>
 
-    </div>
+    <div class="profile-info">  
 
+        <h2>MD Syful Islam Sohag</h2>  
 
-    <div class="cards">
+        <p>  
+            Office Staff / Office Attendant  
+        </p>  
 
-        <div class="card">
+        <p>  
+            HR Division — Facilities & Maintenance Unit  
+        </p>  
 
-            <h3>WorkSafe Log</h3>
+        <p>  
+            Almarai Company — Riyadh, Saudi Arabia  
+        </p>  
 
-            <p>
-                Privacy-conscious workplace incident
-                documentation and safety log.
-            </p>
+    </div>  
 
-            <a
-                class="project-link"
-                href="https://syfulislam1191-collab.github.io/WorkSafe-Log/"
-                target="_blank"
-                rel="noopener">
-                Open Project
-            </a>
+</div>
 
-        </div>
+</section>  </main>  <!-- =========================  
+     FOOTER  
+========================= -->  <footer class="footer">  WorkActivity © 2026 — Professional Work Activity Portfolio
 
-
-        <div class="card">
-
-            <h3>SmartStock Inventory Management System</h3>
-
-            <p>
-                A practical inventory management project
-                focused on stock-in, stock-out and
-                low-stock monitoring.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     DOCUMENTS
-========================= -->
-
-<section id="documents" class="section">
-
-    <div class="section-title">
-
-        <h2>Documents / Certificates</h2>
-
-        <p>
-            Upload and manage your certificates and professional documents.
-        </p>
-
-    </div>
-
-
-    <div class="form-card">
-
-        <h3>Upload Document</h3>
-
-
-        <div class="form-group">
-
-            <label for="documentFile">
-                Select PDF or Image
-            </label>
-
-            <input
-                type="file"
-                id="documentFile"
-                accept=".pdf,image/*">
-
-        </div>
-
-
-        <button
-            class="btn primary-btn"
-            onclick="uploadDocument()">
-
-            Upload Document
-
-        </button>
-
-
-        <div
-            id="documentStatus"
-            class="status-message">
-        </div>
-
-    </div>
-
-
-    <div id="documentList"></div>
-
-</section>
-
-
-<!-- =========================
-     PROFILE
-========================= -->
-
-<section id="profile" class="section">
-
-    <div class="section-title">
-
-        <h2>Profile</h2>
-
-        <p>
-            Professional profile information.
-        </p>
-
-    </div>
-
-
-    <div class="profile-box">
-
-
-        <div class="profile-photo-wrapper">
-
-            <div class="profile-photo">
-
-                <img
-                    id="profileImage"
-                    alt="Profile Photo"
-                    style="display:none;">
-
-                <span id="profilePlaceholder">
-                    Photo
-                </span>
-
-            </div>
-
-
-            <input
-                type="file"
-                id="profilePhotoInput"
-                accept="image/*"
-                style="display:none;"
-                onchange="uploadProfilePhoto(event)">
-
-
-            <button
-                class="btn photo-btn"
-                onclick="document.getElementById('profilePhotoInput').click()">
-
-                Upload Photo
-
-            </button>
-
-
-            <button
-                class="btn delete-btn"
-                onclick="removeProfilePhoto()">
-
-                Remove Photo
-
-            </button>
-
-        </div>
-
-
-        <div class="profile-info">
-
-            <h2>MD Syful Islam Sohag</h2>
-
-            <p>
-                Office Staff / Office Attendant
-            </p>
-
-            <p>
-                HR Division — Facilities & Maintenance Unit
-            </p>
-
-            <p>
-                Almarai Company — Riyadh, Saudi Arabia
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer class="footer">
-
-    WorkActivity © 2026 — Professional Work Activity Portfolio
-
-</footer>
-
-
-<script>
-
-/* =========================================================
-   GENERAL STORAGE
-========================================================= */
-
-const DAILY_KEY = "workactivity_daily_v2";
-const RESPONSIBILITY_KEY = "workactivity_responsibilities_v2";
-
-
-/* =========================================================
-   MENU
-========================================================= */
-
-function toggleMenu() {
-
-    const menu = document.getElementById("menu");
-
-    menu.classList.toggle("show");
-
-}
-
-
-function closeMenu() {
-
-    document
-        .getElementById("menu")
-        .classList.remove("show");
-
-}
-
-
-function showSection(sectionId) {
-
-    const sections =
-        document.querySelectorAll(".section");
-
-    sections.forEach(section => {
-
-        section.classList.remove("active");
-
-    });
-
-
-    const target =
-        document.getElementById(sectionId);
-
-    if (target) {
-
-        target.classList.add("active");
-
-    }
-
-
-    closeMenu();
-
-
-    window.scrollTo({
-
-        top: 0,
-        behavior: "smooth"
-
-    });
-
-
-    if (sectionId === "daily") {
-
-        renderDailyWork();
-
-    }
-
-
-    if (sectionId === "documents") {
-
-        renderDocuments();
-
-    }
-
-}
-
-
-/* Close menu when clicking outside */
-
-document.addEventListener("click", function(event) {
-
-    const menu =
-        document.getElementById("menu");
-
-    const menuButton =
-        document.querySelector(".menu-btn");
-
-    if (
-        menu.classList.contains("show") &&
-        !menu.contains(event.target) &&
-        !menuButton.contains(event.target)
-    ) {
-
-        closeMenu();
-
-    }
-
-});
-
-
-/* ESC closes menu */
-
-document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape") {
-
-        closeMenu();
-
-    }
-
-});
-
-
-/* =========================================================
-   RESPONSIBILITY EDIT
-========================================================= */
-
-function toggleEdit(button) {
-
-    const editArea =
-        button.nextElementSibling;
-
-    if (!editArea) return;
-
-    editArea.classList.toggle("show");
-
-}
-
-
-function saveEdit(button) {
-
-    const editArea =
-        button.closest(".edit-area");
-
-    if (!editArea) return;
-
-    const card =
-        editArea.closest(".responsibility-card");
-
-    if (!card) return;
-
-    const textarea =
-        editArea.querySelector("textarea");
-
-    const paragraph =
-        card.querySelector(".responsibility-text");
-
-    if (!textarea || !paragraph) return;
-
-    const value =
-        textarea.value.trim();
-
-    if (!value) {
-
-        alert("Please enter some information.");
-
-        return;
-
-    }
-
-
-    paragraph.textContent = value;
-
-
-    const cards =
-        document.querySelectorAll(".responsibility-card");
-
-    const data = [];
-
-    cards.forEach(cardItem => {
-
-        const text =
-            cardItem.querySelector(".responsibility-text");
-
-        if (text) {
-
-            data.push(text.textContent);
-
-        }
-
-    });
-
-
-    localStorage.setItem(
-        RESPONSIBILITY_KEY,
-        JSON.stringify(data)
-    );
-
-
-    editArea.classList.remove("show");
-
-    alert("Responsibility updated successfully.");
-
-}
-
-
-/* Load saved responsibilities */
-
-function loadResponsibilities() {
-
-    const saved =
-        localStorage.getItem(RESPONSIBILITY_KEY);
-
-    if (!saved) return;
-
-    try {
-
-        const data =
-            JSON.parse(saved);
-
-        const cards =
-            document.querySelectorAll(".responsibility-card");
-
-        cards.forEach((card, index) => {
-
-            const paragraph =
-                card.querySelector(".responsibility-text");
-
-            const textarea =
-                card.querySelector("textarea");
-
-            if (
-                data[index] &&
-                paragraph &&
-                textarea
-            ) {
-
-                paragraph.textContent = data[index];
-
-                textarea.value = data[index];
-
-            }
-
-        });
-
-    } catch(error) {
-
-        console.error(
-            "Could not load responsibilities:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   IMAGE COMPRESSION
-========================================================= */
-
-function compressImage(file) {
-
-    return new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-
-        reader.onload = function(event) {
-
-            const image =
-                new Image();
-
-            image.onload = function() {
-
-                const maxWidth = 1000;
-                const maxHeight = 1000;
-
-                let width =
-                    image.width;
-
-                let height =
-                    image.height;
-
-
-                if (
-                    width > maxWidth ||
-                    height > maxHeight
-                ) {
-
-                    const ratio =
-                        Math.min(
-                            maxWidth / width,
-                            maxHeight / height
-                        );
-
-                    width =
-                        Math.round(width * ratio);
-
-                    height =
-                        Math.round(height * ratio);
-
-                }
-
-
-                const canvas =
-                    document.createElement("canvas");
-
-                canvas.width = width;
-                canvas.height = height;
-
-
-                const context =
-                    canvas.getContext("2d");
-
-                context.drawImage(
-                    image,
-                    0,
-                    0,
-                    width,
-                    height
-                );
-
-
-                canvas.toBlob(
-                    function(blob) {
-
-                        if (!blob) {
-
-                            reject(
-                                new Error(
-                                    "Image compression failed."
-                                )
-                            );
-
-                            return;
-
-                        }
-
-                        resolve(blob);
-
-                    },
-                    "image/jpeg",
-                    0.78
-                );
-
-            };
-
-
-            image.onerror = function() {
-
-                reject(
-                    new Error(
-                        "Could not read image."
-                    )
-                );
-
-            };
-
-
-            image.src =
-                event.target.result;
-
-        };
-
-
-        reader.onerror = function() {
-
-            reject(
-                new Error(
-                    "Could not load file."
-                )
-            );
-
-        };
-
-
-        reader.readAsDataURL(file);
-
-    });
-
-}
-
-
-/* =========================================================
-   INDEXED DB
-========================================================= */
-
-const DB_NAME = "WorkActivityDB";
-const DB_VERSION = 1;
-const STORE_NAME = "files";
-
-
-function openDatabase() {
-
-    return new Promise((resolve, reject) => {
-
-        const request =
-            indexedDB.open(
-                DB_NAME,
-                DB_VERSION
-            );
-
-
-        request.onupgradeneeded =
-            function(event) {
-
-                const db =
-                    event.target.result;
-
-                if (
-                    !db.objectStoreNames.contains(
-                        STORE_NAME
-                    )
-                ) {
-
-                    db.createObjectStore(
-                        STORE_NAME,
-                        {
-                            keyPath: "id",
-                            autoIncrement: true
-                        }
-                    );
-
-                }
-
-            };
-
-
-        request.onsuccess =
-            function(event) {
-
-                resolve(
-                    event.target.result
-                );
-
-            };
-
-
-        request.onerror =
-            function() {
-
-                reject(
-                    request.error
-                );
-
-            };
-
-    });
-
-}
-
-
-/* =========================================================
-   FILE DATABASE HELPERS
-========================================================= */
-
-async function saveFileToDB(file, type, extra = {}) {
-
-    const db =
-        await openDatabase();
-
-    return new Promise((resolve, reject) => {
-
-        const transaction =
-            db.transaction(
-                STORE_NAME,
-                "readwrite"
-            );
-
-        const store =
-            transaction.objectStore(
-                STORE_NAME
-            );
-
-
-        const record = {
-
-            file: file,
-            type: type,
-            name: extra.name || file.name || "file",
-            createdAt:
-                new Date().toISOString(),
-            ...extra
-
-        };
-
-
-        const request =
-            store.add(record);
-
-
-        request.onsuccess =
-            function() {
-
-                resolve(
-                    request.result
-                );
-
-            };
-
-
-        request.onerror =
-            function() {
-
-                reject(
-                    request.error
-                );
-
-            };
-
-    });
-
-}
-
-
-async function getAllFilesFromDB() {
-
-    const db =
-        await openDatabase();
-
-    return new Promise((resolve, reject) => {
-
-        const transaction =
-            db.transaction(
-                STORE_NAME,
-                "readonly"
-            );
-
-        const store =
-            transaction.objectStore(
-                STORE_NAME
-            );
-
-
-        const request =
-            store.getAll();
-
-
-        request.onsuccess =
-            function() {
-
-                resolve(
-                    request.result || []
-                );
-
-            };
-
-
-        request.onerror =
-            function() {
-
-                reject(
-                    request.error
-                );
-
-            };
-
-    });
-
-}
-
-
-async function getFileFromDB(id) {
-
-    const db =
-        await openDatabase();
-
-    return new Promise((resolve, reject) => {
-
-        const transaction =
-            db.transaction(
-                STORE_NAME,
-                "readonly"
-            );
-
-        const store =
-            transaction.objectStore(
-                STORE_NAME
-            );
-
-
-        const request =
-            store.get(Number(id));
-
-
-        request.onsuccess =
-            function() {
-
-                resolve(
-                    request.result
-                );
-
-            };
-
-
-        request.onerror =
-            function() {
-
-                reject(
-                    request.error
-                );
-
-            };
-
-    });
-
-}
-
-
-async function deleteFileFromDB(id) {
-
-    const db =
-        await openDatabase();
-
-    return new Promise((resolve, reject) => {
-
-        const transaction =
-            db.transaction(
-                STORE_NAME,
-                "readwrite"
-            );
-
-        const store =
-            transaction.objectStore(
-                STORE_NAME
-            );
-
-
-        const request =
-            store.delete(Number(id));
-
-
-        request.onsuccess =
-            function() {
-
-                resolve();
-
-            };
-
-
-        request.onerror =
-            function() {
-
-                reject(
-                    request.error
-                );
-
-            };
-
-    });
-
-}
-
-
-/* =========================================================
-   PROFILE PHOTO
-========================================================= */
-
-async function uploadProfilePhoto(event) {
-
-    const file =
-        event.target.files[0];
-
-    if (!file) return;
-
-
-    if (!file.type.startsWith("image/")) {
-
-        alert("Please select an image file.");
-
-        return;
-
-    }
-
-
-    try {
-
-        const compressed =
-            await compressImage(file);
-
-
-        const existingFiles =
-            await getAllFilesFromDB();
-
-
-        for (const item of existingFiles) {
-
-            if (
-                item.type === "profile-photo"
-            ) {
-
-                await deleteFileFromDB(
-                    item.id
-                );
-
-            }
-
-        }
-
-
-        const id =
-            await saveFileToDB(
-                compressed,
-                "profile-photo",
-                {
-                    name: "Profile Photo.jpg"
-                }
-            );
-
-
-        localStorage.setItem(
-            "workactivity_profile_photo_id",
-            String(id)
-        );
-
-
-        await displayProfilePhoto();
-
-        alert("Profile photo saved successfully.");
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not save the photo. Please try again."
-        );
-
-    }
-
-
-    event.target.value = "";
-
-}
-
-
-async function displayProfilePhoto() {
-
-    const id =
-        localStorage.getItem(
-            "workactivity_profile_photo_id"
-        );
-
-
-    const image =
-        document.getElementById("profileImage");
-
-    const placeholder =
-        document.getElementById(
-            "profilePlaceholder"
-        );
-
-
-    if (!id) {
-
-        image.style.display = "none";
-
-        placeholder.style.display = "block";
-
-        return;
-
-    }
-
-
-    try {
-
-        const record =
-            await getFileFromDB(id);
-
-        if (!record) {
-
-            image.style.display = "none";
-
-            placeholder.style.display = "block";
-
-            return;
-
-        }
-
-
-        const url =
-            URL.createObjectURL(
-                record.file
-            );
-
-
-        image.src = url;
-
-        image.style.display = "block";
-
-        placeholder.style.display = "none";
-
-    } catch(error) {
-
-        console.error(
-            "Could not display profile photo:",
-            error
-        );
-
-    }
-
-}
-
-
-async function removeProfilePhoto() {
-
-    const id =
-        localStorage.getItem(
-            "workactivity_profile_photo_id"
-        );
-
-
-    if (!id) {
-
-        alert("No profile photo is currently saved.");
-
-        return;
-
-    }
-
-
-    const confirmDelete =
-        confirm(
-            "Remove your profile photo?"
-        );
-
-
-    if (!confirmDelete) return;
-
-
-    try {
-
-        await deleteFileFromDB(id);
-
-        localStorage.removeItem(
-            "workactivity_profile_photo_id"
-        );
-
-
-        await displayProfilePhoto();
-
-        alert("Profile photo removed.");
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not remove the photo."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   DAILY WORK
-========================================================= */
-
-function getDailyWork() {
-
-    const data =
-        localStorage.getItem(
-            DAILY_KEY
-        );
-
-
-    if (!data) return [];
-
-
-    try {
-
-        return JSON.parse(data);
-
-    } catch(error) {
-
-        return [];
-
-    }
-
-}
-
-
-function saveDailyWork(data) {
-
-    localStorage.setItem(
-        DAILY_KEY,
-        JSON.stringify(data)
-    );
-
-}
-
-
-function showDailyStatus(message) {
-
-    const box =
-        document.getElementById(
-            "dailyStatus"
-        );
-
-    box.textContent = message;
-
-    box.classList.add("show");
-
-
-    setTimeout(() => {
-
-        box.classList.remove("show");
-
-    }, 2500);
-
-}
-
-
-async function addDailyWork() {
-
-    const date =
-        document.getElementById(
-            "workDate"
-        ).value;
-
-
-    const time =
-        document.getElementById(
-            "workTime"
-        ).value;
-
-
-    const area =
-        document.getElementById(
-            "workArea"
-        ).value.trim();
-
-
-    const title =
-        document.getElementById(
-            "workTitle"
-        ).value.trim();
-
-
-    const description =
-        document.getElementById(
-            "workDescription"
-        ).value.trim();
-
-
-    const photoInput =
-        document.getElementById(
-            "workPhoto"
-        );
-
-
-    const photo =
-        photoInput.files[0];
-
-
-    if (!date) {
-
-        alert("Please select a date.");
-
-        return;
-
-    }
-
-
-    if (!title) {
-
-        alert("Please enter an activity title.");
-
-        return;
-
-    }
-
-
-    if (!description) {
-
-        alert("Please enter an activity description.");
-
-        return;
-
-    }
-
-
-    try {
-
-        let photoId = null;
-
-
-        if (photo) {
-
-            if (
-                !photo.type.startsWith("image/")
-            ) {
-
-                alert(
-                    "Only image files are allowed for activity photos."
-                );
-
-                return;
-
-            }
-
-
-            const compressed =
-                await compressImage(photo);
-
-
-            photoId =
-                await saveFileToDB(
-                    compressed,
-                    "daily-photo",
-                    {
-                        name: photo.name
-                    }
-                );
-
-        }
-
-
-        const activities =
-            getDailyWork();
-
-
-        const newActivity = {
-
-            id:
-                Date.now().toString(),
-
-            date: date,
-
-            time:
-                time || "",
-
-            area:
-                area || "Not specified",
-
-            title:
-                title,
-
-            description:
-                description,
-
-            photoId:
-                photoId
-
-        };
-
-
-        activities.unshift(
-            newActivity
-        );
-
-
-        saveDailyWork(
-            activities
-        );
-
-
-        document.getElementById(
-            "workDate"
-        ).value = "";
-
-
-        document.getElementById(
-            "workTime"
-        ).value = "";
-
-
-        document.getElementById(
-            "workArea"
-        ).value = "";
-
-
-        document.getElementById(
-            "workTitle"
-        ).value = "";
-
-
-        document.getElementById(
-            "workDescription"
-        ).value = "";
-
-
-        photoInput.value = "";
-
-
-        renderDailyWork();
-
-
-        showDailyStatus(
-            "Daily activity added successfully."
-        );
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not save the activity. Please try again."
-        );
-
-    }
-
-}
-
-
-async function renderDailyWork() {
-
-    const container =
-        document.getElementById(
-            "dailyWorkList"
-        );
-
-
-    const activities =
-        getDailyWork();
-
-
-    if (activities.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-message">
-                No daily activities have been added yet.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    for (const activity of activities) {
-
-        const entry =
-            document.createElement("div");
-
-        entry.className =
-            "work-entry";
-
-
-        const safeDate =
-            activity.date || "No date";
-
-
-        const safeTime =
-            activity.time || "No time";
-
-
-        const safeArea =
-            activity.area || "Not specified";
-
-
-        entry.innerHTML = `
-
-            <h3>
-                ${escapeHTML(activity.title)}
-            </h3>
-
-            <div class="meta">
-                Date: ${escapeHTML(safeDate)}
-                |
-                Time: ${escapeHTML(safeTime)}
-                |
-                Area: ${escapeHTML(safeArea)}
-            </div>
-
-            <p class="work-description">
-                ${escapeHTML(activity.description)}
-            </p>
-
-            <div class="entry-photo-container"></div>
-
-            <div class="entry-actions">
-
-                <button
-                    class="btn edit-btn"
-                    onclick="editDailyWork('${activity.id}')">
-                    Edit
-                </button>
-
-                <button
-                    class="btn delete-btn"
-                    onclick="deleteDailyWork('${activity.id}')">
-                    Delete
-                </button>
-
-            </div>
-        `;
-
-
-        container.appendChild(entry);
-
-
-        if (activity.photoId) {
-
-            try {
-
-                const record =
-                    await getFileFromDB(
-                        activity.photoId
-                    );
-
-
-                if (record) {
-
-                    const image =
-                        document.createElement("img");
-
-
-                    image.className =
-                        "entry-photo";
-
-
-                    image.alt =
-                        "Work activity photo";
-
-
-                    image.src =
-                        URL.createObjectURL(
-                            record.file
-                        );
-
-
-                    const photoContainer =
-                        entry.querySelector(
-                            ".entry-photo-container"
-                        );
-
-
-                    photoContainer.appendChild(
-                        image
-                    );
-
-                }
-
-            } catch(error) {
-
-                console.error(error);
-
-            }
-
-        }
-
-    }
-
-}
-
-
-async function editDailyWork(id) {
-
-    const activities =
-        getDailyWork();
-
-
-    const activity =
-        activities.find(
-            item => item.id === id
-        );
-
-
-    if (!activity) return;
-
-
-    const newTitle =
-        prompt(
-            "Activity Title:",
-            activity.title
-        );
-
-
-    if (newTitle === null) return;
-
-
-    const newDescription =
-        prompt(
-            "Activity Description:",
-            activity.description
-        );
-
-
-    if (newDescription === null) return;
-
-
-    activity.title =
-        newTitle.trim() ||
-        activity.title;
-
-
-    activity.description =
-        newDescription.trim() ||
-        activity.description;
-
-
-    saveDailyWork(
-        activities
-    );
-
-
-    renderDailyWork();
-
-
-    alert(
-        "Daily activity updated successfully."
-    );
-
-}
-
-
-async function deleteDailyWork(id) {
-
-    const confirmDelete =
-        confirm(
-            "Delete this daily activity?"
-        );
-
-
-    if (!confirmDelete) return;
-
-
-    const activities =
-        getDailyWork();
-
-
-    const activity =
-        activities.find(
-            item => item.id === id
-        );
-
-
-    if (
-        activity &&
-        activity.photoId
-    ) {
-
-        try {
-
-            await deleteFileFromDB(
-                activity.photoId
-            );
-
-        } catch(error) {
-
-            console.error(error);
-
-        }
-
-    }
-
-
-    const updated =
-        activities.filter(
-            item => item.id !== id
-        );
-
-
-    saveDailyWork(
-        updated
-    );
-
-
-    renderDailyWork();
-
-}
-
-
-/* =========================================================
-   DOCUMENTS
-========================================================= */
-
-function showDocumentStatus(message) {
-
-    const box =
-        document.getElementById(
-            "documentStatus"
-        );
-
-    box.textContent =
-        message;
-
-    box.classList.add("show");
-
-
-    setTimeout(() => {
-
-        box.classList.remove("show");
-
-    }, 2500);
-
-}
-
-
-async function uploadDocument() {
-
-    const input =
-        document.getElementById(
-            "documentFile"
-        );
-
-
-    const file =
-        input.files[0];
-
-
-    if (!file) {
-
-        alert(
-            "Please select a document first."
-        );
-
-        return;
-
-    }
-
-
-    const allowed =
-        file.type === "application/pdf" ||
-        file.type.startsWith("image/");
-
-
-    if (!allowed) {
-
-        alert(
-            "Please select a PDF or image file."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        await saveFileToDB(
-            file,
-            "document",
-            {
-                name: file.name
-            }
-        );
-
-
-        input.value = "";
-
-
-        await renderDocuments();
-
-
-        showDocumentStatus(
-            "Document uploaded successfully."
-        );
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not upload the document."
-        );
-
-    }
-
-}
-
-
-async function renderDocuments() {
-
-    const container =
-        document.getElementById(
-            "documentList"
-        );
-
-
-    try {
-
-        const files =
-            await getAllFilesFromDB();
-
-
-        const documents =
-            files.filter(
-                item =>
-                    item.type === "document"
-            );
-
-
-        if (documents.length === 0) {
-
-            container.innerHTML = `
-                <div class="empty-message">
-                    No documents or certificates uploaded yet.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        container.innerHTML = "";
-
-
-        documents
-            .sort(
-                (a,b) =>
-                    new Date(b.createdAt) -
-                    new Date(a.createdAt)
-            )
-            .forEach(documentItem => {
-
-                const box =
-                    document.createElement("div");
-
-
-                box.className =
-                    "document-item";
-
-
-                const date =
-                    new Date(
-                        documentItem.createdAt
-                    ).toLocaleString();
-
-
-                box.innerHTML = `
-
-                    <div class="document-name">
-                        ${escapeHTML(documentItem.name)}
-                    </div>
-
-                    <div class="document-meta">
-                        Added: ${escapeHTML(date)}
-                    </div>
-
-                    <div class="document-actions">
-
-                        <button
-                            class="btn primary-btn"
-                            onclick="openDocument(${documentItem.id})">
-                            Open
-                        </button>
-
-                        <button
-                            class="btn delete-btn"
-                            onclick="deleteDocument(${documentItem.id})">
-                            Delete
-                        </button>
-
-                    </div>
-                `;
-
-
-                container.appendChild(
-                    box
-                );
-
-            });
-
-    } catch(error) {
-
-        console.error(error);
-
-        container.innerHTML = `
-            <div class="empty-message">
-                Documents could not be loaded.
-            </div>
-        `;
-
-    }
-
-}
-
-
-async function openDocument(id) {
-
-    try {
-
-        const record =
-            await getFileFromDB(id);
-
-
-        if (!record) {
-
-            alert(
-                "Document could not be found."
-            );
-
-            return;
-
-        }
-
-
-        const url =
-            URL.createObjectURL(
-                record.file
-            );
-
-
-        window.open(
-            url,
-            "_blank"
-        );
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not open the document."
-        );
-
-    }
-
-}
-
-
-async function deleteDocument(id) {
-
-    const confirmDelete =
-        confirm(
-            "Delete this document?"
-        );
-
-
-    if (!confirmDelete) return;
-
-
-    try {
-
-        await deleteFileFromDB(
-            id
-        );
-
-
-        await renderDocuments();
-
-
-        alert(
-            "Document deleted successfully."
-        );
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Could not delete the document."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   HTML SAFETY
-========================================================= */
-
-function escapeHTML(value) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        String(value ?? "");
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================================
-   INITIALIZATION
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-        loadResponsibilities();
-
-        renderDailyWork();
-
-        renderDocuments();
-
-        displayProfilePhoto();
-
-        /* Set today's date automatically */
-
-        const dateInput =
-            document.getElementById(
-                "workDate"
-            );
-
-
-        if (dateInput) {
-
-            const today =
-                new Date();
-
-
-            const year =
-                today.getFullYear();
-
-
-            const month =
-                String(
-                    today.getMonth() + 1
-                ).padStart(2, "0");
-
-
-            const day =
-                String(
-                    today.getDate()
-                ).padStart(2, "0");
-
-
-            dateInput.value =
-                `${year}-${month}-${day}`;
-
-        }
-
-    }
-);
-
-</script>
-
-</body>
+</footer>  <script>  
+  
+/* =========================================================  
+   GENERAL STORAGE  
+========================================================= */  
+  
+const DAILY_KEY = "workactivity_daily_v2";  
+const RESPONSIBILITY_KEY = "workactivity_responsibilities_v2";  
+  
+  
+/* =========================================================  
+   MENU  
+========================================================= */  
+  
+function toggleMenu() {  
+  
+    const menu = document.getElementById("menu");  
+  
+    menu.classList.toggle("show");  
+  
+}  
+  
+  
+function closeMenu() {  
+  
+    document  
+        .getElementById("menu")  
+        .classList.remove("show");  
+  
+}  
+  
+  
+function showSection(sectionId) {  
+  
+    const sections =  
+        document.querySelectorAll(".section");  
+  
+    sections.forEach(section => {  
+  
+        section.classList.remove("active");  
+  
+    });  
+  
+  
+    const target =  
+        document.getElementById(sectionId);  
+  
+    if (target) {  
+  
+        target.classList.add("active");  
+  
+    }  
+  
+  
+    closeMenu();  
+  
+  
+    window.scrollTo({  
+  
+        top: 0,  
+        behavior: "smooth"  
+  
+    });  
+  
+  
+    if (sectionId === "daily") {  
+  
+        renderDailyWork();  
+  
+    }  
+  
+  
+    if (sectionId === "documents") {  
+  
+        renderDocuments();  
+  
+    }  
+  
+}  
+  
+  
+/* Close menu when clicking outside */  
+  
+document.addEventListener("click", function(event) {  
+  
+    const menu =  
+        document.getElementById("menu");  
+  
+    const menuButton =  
+        document.querySelector(".menu-btn");  
+  
+    if (  
+        menu.classList.contains("show") &&  
+        !menu.contains(event.target) &&  
+        !menuButton.contains(event.target)  
+    ) {  
+  
+        closeMenu();  
+  
+    }  
+  
+});  
+  
+  
+/* ESC closes menu */  
+  
+document.addEventListener("keydown", function(event) {  
+  
+    if (event.key === "Escape") {  
+  
+        closeMenu();  
+  
+    }  
+  
+});  
+  
+  
+/* =========================================================  
+   RESPONSIBILITY EDIT  
+========================================================= */  
+  
+function toggleEdit(button) {  
+  
+    const editArea =  
+        button.nextElementSibling;  
+  
+    if (!editArea) return;  
+  
+    editArea.classList.toggle("show");  
+  
+}  
+  
+  
+function saveEdit(button) {  
+  
+    const editArea =  
+        button.closest(".edit-area");  
+  
+    if (!editArea) return;  
+  
+    const card =  
+        editArea.closest(".responsibility-card");  
+  
+    if (!card) return;  
+  
+    const textarea =  
+        editArea.querySelector("textarea");  
+  
+    const paragraph =  
+        card.querySelector(".responsibility-text");  
+  
+    if (!textarea || !paragraph) return;  
+  
+    const value =  
+        textarea.value.trim();  
+  
+    if (!value) {  
+  
+        alert("Please enter some information.");  
+  
+        return;  
+  
+    }  
+  
+  
+    paragraph.textContent = value;  
+  
+  
+    const cards =  
+        document.querySelectorAll(".responsibility-card");  
+  
+    const data = [];  
+  
+    cards.forEach(cardItem => {  
+  
+        const text =  
+            cardItem.querySelector(".responsibility-text");  
+  
+        if (text) {  
+  
+            data.push(text.textContent);  
+  
+        }  
+  
+    });  
+  
+  
+    localStorage.setItem(  
+        RESPONSIBILITY_KEY,  
+        JSON.stringify(data)  
+    );  
+  
+  
+    editArea.classList.remove("show");  
+  
+    alert("Responsibility updated successfully.");  
+  
+}  
+  
+  
+/* Load saved responsibilities */  
+  
+function loadResponsibilities() {  
+  
+    const saved =  
+        localStorage.getItem(RESPONSIBILITY_KEY);  
+  
+    if (!saved) return;  
+  
+    try {  
+  
+        const data =  
+            JSON.parse(saved);  
+  
+        const cards =  
+            document.querySelectorAll(".responsibility-card");  
+  
+        cards.forEach((card, index) => {  
+  
+            const paragraph =  
+                card.querySelector(".responsibility-text");  
+  
+            const textarea =  
+                card.querySelector("textarea");  
+  
+            if (  
+                data[index] &&  
+                paragraph &&  
+                textarea  
+            ) {  
+  
+                paragraph.textContent = data[index];  
+  
+                textarea.value = data[index];  
+  
+            }  
+  
+        });  
+  
+    } catch(error) {  
+  
+        console.error(  
+            "Could not load responsibilities:",  
+            error  
+        );  
+  
+    }  
+  
+}  
+  
+  
+/* =========================================================  
+   IMAGE COMPRESSION  
+========================================================= */  
+  
+function compressImage(file) {  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const reader = new FileReader();  
+  
+        reader.onload = function(event) {  
+  
+            const image =  
+                new Image();  
+  
+            image.onload = function() {  
+  
+                const maxWidth = 1000;  
+                const maxHeight = 1000;  
+  
+                let width =  
+                    image.width;  
+  
+                let height =  
+                    image.height;  
+  
+  
+                if (  
+                    width > maxWidth ||  
+                    height > maxHeight  
+                ) {  
+  
+                    const ratio =  
+                        Math.min(  
+                            maxWidth / width,  
+                            maxHeight / height  
+                        );  
+  
+                    width =  
+                        Math.round(width * ratio);  
+  
+                    height =  
+                        Math.round(height * ratio);  
+  
+                }  
+  
+  
+                const canvas =  
+                    document.createElement("canvas");  
+  
+                canvas.width = width;  
+                canvas.height = height;  
+  
+  
+                const context =  
+                    canvas.getContext("2d");  
+  
+                context.drawImage(  
+                    image,  
+                    0,  
+                    0,  
+                    width,  
+                    height  
+                );  
+  
+  
+                canvas.toBlob(  
+                    function(blob) {  
+  
+                        if (!blob) {  
+  
+                            reject(  
+                                new Error(  
+                                    "Image compression failed."  
+                                )  
+                            );  
+  
+                            return;  
+  
+                        }  
+  
+                        resolve(blob);  
+  
+                    },  
+                    "image/jpeg",  
+                    0.78  
+                );  
+  
+            };  
+  
+  
+            image.onerror = function() {  
+  
+                reject(  
+                    new Error(  
+                        "Could not read image."  
+                    )  
+                );  
+  
+            };  
+  
+  
+            image.src =  
+                event.target.result;  
+  
+        };  
+  
+  
+        reader.onerror = function() {  
+  
+            reject(  
+                new Error(  
+                    "Could not load file."  
+                )  
+            );  
+  
+        };  
+  
+  
+        reader.readAsDataURL(file);  
+  
+    });  
+  
+}  
+  
+  
+/* =========================================================  
+   INDEXED DB  
+========================================================= */  
+  
+const DB_NAME = "WorkActivityDB";  
+const DB_VERSION = 1;  
+const STORE_NAME = "files";  
+  
+  
+function openDatabase() {  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const request =  
+            indexedDB.open(  
+                DB_NAME,  
+                DB_VERSION  
+            );  
+  
+  
+        request.onupgradeneeded =  
+            function(event) {  
+  
+                const db =  
+                    event.target.result;  
+  
+                if (  
+                    !db.objectStoreNames.contains(  
+                        STORE_NAME  
+                    )  
+                ) {  
+  
+                    db.createObjectStore(  
+                        STORE_NAME,  
+                        {  
+                            keyPath: "id",  
+                            autoIncrement: true  
+                        }  
+                    );  
+  
+                }  
+  
+            };  
+  
+  
+        request.onsuccess =  
+            function(event) {  
+  
+                resolve(  
+                    event.target.result  
+                );  
+  
+            };  
+  
+  
+        request.onerror =  
+            function() {  
+  
+                reject(  
+                    request.error  
+                );  
+  
+            };  
+  
+    });  
+  
+}  
+  
+  
+/* =========================================================  
+   FILE DATABASE HELPERS  
+========================================================= */  
+  
+async function saveFileToDB(file, type, extra = {}) {  
+  
+    const db =  
+        await openDatabase();  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const transaction =  
+            db.transaction(  
+                STORE_NAME,  
+                "readwrite"  
+            );  
+  
+        const store =  
+            transaction.objectStore(  
+                STORE_NAME  
+            );  
+  
+  
+        const record = {  
+  
+            file: file,  
+            type: type,  
+            name: extra.name || file.name || "file",  
+            createdAt:  
+                new Date().toISOString(),  
+            ...extra  
+  
+        };  
+  
+  
+        const request =  
+            store.add(record);  
+  
+  
+        request.onsuccess =  
+            function() {  
+  
+                resolve(  
+                    request.result  
+                );  
+  
+            };  
+  
+  
+        request.onerror =  
+            function() {  
+  
+                reject(  
+                    request.error  
+                );  
+  
+            };  
+  
+    });  
+  
+}  
+  
+  
+async function getAllFilesFromDB() {  
+  
+    const db =  
+        await openDatabase();  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const transaction =  
+            db.transaction(  
+                STORE_NAME,  
+                "readonly"  
+            );  
+  
+        const store =  
+            transaction.objectStore(  
+                STORE_NAME  
+            );  
+  
+  
+        const request =  
+            store.getAll();  
+  
+  
+        request.onsuccess =  
+            function() {  
+  
+                resolve(  
+                    request.result || []  
+                );  
+  
+            };  
+  
+  
+        request.onerror =  
+            function() {  
+  
+                reject(  
+                    request.error  
+                );  
+  
+            };  
+  
+    });  
+  
+}  
+  
+  
+async function getFileFromDB(id) {  
+  
+    const db =  
+        await openDatabase();  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const transaction =  
+            db.transaction(  
+                STORE_NAME,  
+                "readonly"  
+            );  
+  
+        const store =  
+            transaction.objectStore(  
+                STORE_NAME  
+            );  
+  
+  
+        const request =  
+            store.get(Number(id));  
+  
+  
+        request.onsuccess =  
+            function() {  
+  
+                resolve(  
+                    request.result  
+                );  
+  
+            };  
+  
+  
+        request.onerror =  
+            function() {  
+  
+                reject(  
+                    request.error  
+                );  
+  
+            };  
+  
+    });  
+  
+}  
+  
+  
+async function deleteFileFromDB(id) {  
+  
+    const db =  
+        await openDatabase();  
+  
+    return new Promise((resolve, reject) => {  
+  
+        const transaction =  
+            db.transaction(  
+                STORE_NAME,  
+                "readwrite"  
+            );  
+  
+        const store =  
+            transaction.objectStore(  
+                STORE_NAME  
+            );  
+  
+  
+        const request =  
+            store.delete(Number(id));  
+  
+  
+        request.onsuccess =  
+            function() {  
+  
+                resolve();  
+  
+            };  
+  
+  
+        request.onerror =  
+            function() {  
+  
+                reject(  
+                    request.error  
+                );  
+  
+            };  
+  
+    });  
+  
+}  
+  
+  
+/* =========================================================  
+   PROFILE PHOTO  
+========================================================= */  
+  
+async function uploadProfilePhoto(event) {  
+  
+    const file =  
+        event.target.files[0];  
+  
+    if (!file) return;  
+  
+  
+    if (!file.type.startsWith("image/")) {  
+  
+        alert("Please select an image file.");  
+  
+        return;  
+  
+    }  
+  
+  
+    try {  
+  
+        const compressed =  
+            await compressImage(file);  
+  
+  
+        const existingFiles =  
+            await getAllFilesFromDB();  
+  
+  
+        for (const item of existingFiles) {  
+  
+            if (  
+                item.type === "profile-photo"  
+            ) {  
+  
+                await deleteFileFromDB(  
+                    item.id  
+                );  
+  
+            }  
+  
+        }  
+  
+  
+        const id =  
+            await saveFileToDB(  
+                compressed,  
+                "profile-photo",  
+                {  
+                    name: "Profile Photo.jpg"  
+                }  
+            );  
+  
+  
+        localStorage.setItem(  
+            "workactivity_profile_photo_id",  
+            String(id)  
+        );  
+  
+  
+        await displayProfilePhoto();  
+  
+        alert("Profile photo saved successfully.");  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not save the photo. Please try again."  
+        );  
+  
+    }  
+  
+  
+    event.target.value = "";  
+  
+}  
+  
+  
+async function displayProfilePhoto() {  
+  
+    const id =  
+        localStorage.getItem(  
+            "workactivity_profile_photo_id"  
+        );  
+  
+  
+    const image =  
+        document.getElementById("profileImage");  
+  
+    const placeholder =  
+        document.getElementById(  
+            "profilePlaceholder"  
+        );  
+  
+  
+    if (!id) {  
+  
+        image.style.display = "none";  
+  
+        placeholder.style.display = "block";  
+  
+        return;  
+  
+    }  
+  
+  
+    try {  
+  
+        const record =  
+            await getFileFromDB(id);  
+  
+        if (!record) {  
+  
+            image.style.display = "none";  
+  
+            placeholder.style.display = "block";  
+  
+            return;  
+  
+        }  
+  
+  
+        const url =  
+            URL.createObjectURL(  
+                record.file  
+            );  
+  
+  
+        image.src = url;  
+  
+        image.style.display = "block";  
+  
+        placeholder.style.display = "none";  
+  
+    } catch(error) {  
+  
+        console.error(  
+            "Could not display profile photo:",  
+            error  
+        );  
+  
+    }  
+  
+}  
+  
+  
+async function removeProfilePhoto() {  
+  
+    const id =  
+        localStorage.getItem(  
+            "workactivity_profile_photo_id"  
+        );  
+  
+  
+    if (!id) {  
+  
+        alert("No profile photo is currently saved.");  
+  
+        return;  
+  
+    }  
+  
+  
+    const confirmDelete =  
+        confirm(  
+            "Remove your profile photo?"  
+        );  
+  
+  
+    if (!confirmDelete) return;  
+  
+  
+    try {  
+  
+        await deleteFileFromDB(id);  
+  
+        localStorage.removeItem(  
+            "workactivity_profile_photo_id"  
+        );  
+  
+  
+        await displayProfilePhoto();  
+  
+        alert("Profile photo removed.");  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not remove the photo."  
+        );  
+  
+    }  
+  
+}  
+  
+  
+/* =========================================================  
+   DAILY WORK  
+========================================================= */  
+  
+function getDailyWork() {  
+  
+    const data =  
+        localStorage.getItem(  
+            DAILY_KEY  
+        );  
+  
+  
+    if (!data) return [];  
+  
+  
+    try {  
+  
+        return JSON.parse(data);  
+  
+    } catch(error) {  
+  
+        return [];  
+  
+    }  
+  
+}  
+  
+  
+function saveDailyWork(data) {  
+  
+    localStorage.setItem(  
+        DAILY_KEY,  
+        JSON.stringify(data)  
+    );  
+  
+}  
+  
+  
+function showDailyStatus(message) {  
+  
+    const box =  
+        document.getElementById(  
+            "dailyStatus"  
+        );  
+  
+    box.textContent = message;  
+  
+    box.classList.add("show");  
+  
+  
+    setTimeout(() => {  
+  
+        box.classList.remove("show");  
+  
+    }, 2500);  
+  
+}  
+  
+  
+async function addDailyWork() {  
+  
+    const date =  
+        document.getElementById(  
+            "workDate"  
+        ).value;  
+  
+  
+    const time =  
+        document.getElementById(  
+            "workTime"  
+        ).value;  
+  
+  
+    const area =  
+        document.getElementById(  
+            "workArea"  
+        ).value.trim();  
+  
+  
+    const title =  
+        document.getElementById(  
+            "workTitle"  
+        ).value.trim();  
+  
+  
+    const description =  
+        document.getElementById(  
+            "workDescription"  
+        ).value.trim();  
+  
+  
+    const photoInput =  
+        document.getElementById(  
+            "workPhoto"  
+        );  
+  
+  
+    const photo =  
+        photoInput.files[0];  
+  
+  
+    if (!date) {  
+  
+        alert("Please select a date.");  
+  
+        return;  
+  
+    }  
+  
+  
+    if (!title) {  
+  
+        alert("Please enter an activity title.");  
+  
+        return;  
+  
+    }  
+  
+  
+    if (!description) {  
+  
+        alert("Please enter an activity description.");  
+  
+        return;  
+  
+    }  
+  
+  
+    try {  
+  
+        let photoId = null;  
+  
+  
+        if (photo) {  
+  
+            if (  
+                !photo.type.startsWith("image/")  
+            ) {  
+  
+                alert(  
+                    "Only image files are allowed for activity photos."  
+                );  
+  
+                return;  
+  
+            }  
+  
+  
+            const compressed =  
+                await compressImage(photo);  
+  
+  
+            photoId =  
+                await saveFileToDB(  
+                    compressed,  
+                    "daily-photo",  
+                    {  
+                        name: photo.name  
+                    }  
+                );  
+  
+        }  
+  
+  
+        const activities =  
+            getDailyWork();  
+  
+  
+        const newActivity = {  
+  
+            id:  
+                Date.now().toString(),  
+  
+            date: date,  
+  
+            time:  
+                time || "",  
+  
+            area:  
+                area || "Not specified",  
+  
+            title:  
+                title,  
+  
+            description:  
+                description,  
+  
+            photoId:  
+                photoId  
+  
+        };  
+  
+  
+        activities.unshift(  
+            newActivity  
+        );  
+  
+  
+        saveDailyWork(  
+            activities  
+        );  
+  
+  
+        document.getElementById(  
+            "workDate"  
+        ).value = "";  
+  
+  
+        document.getElementById(  
+            "workTime"  
+        ).value = "";  
+  
+  
+        document.getElementById(  
+            "workArea"  
+        ).value = "";  
+  
+  
+        document.getElementById(  
+            "workTitle"  
+        ).value = "";  
+  
+  
+        document.getElementById(  
+            "workDescription"  
+        ).value = "";  
+  
+  
+        photoInput.value = "";  
+  
+  
+        renderDailyWork();  
+  
+  
+        showDailyStatus(  
+            "Daily activity added successfully."  
+        );  
+  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not save the activity. Please try again."  
+        );  
+  
+    }  
+  
+}  
+  
+  
+async function renderDailyWork() {  
+  
+    const container =  
+        document.getElementById(  
+            "dailyWorkList"  
+        );  
+  
+  
+    const activities =  
+        getDailyWork();  
+  
+  
+    if (activities.length === 0) {  
+  
+        container.innerHTML = `  
+            <div class="empty-message">  
+                No daily activities have been added yet.  
+            </div>  
+        `;  
+  
+        return;  
+  
+    }  
+  
+  
+    container.innerHTML = "";  
+  
+  
+    for (const activity of activities) {  
+  
+        const entry =  
+            document.createElement("div");  
+  
+        entry.className =  
+            "work-entry";  
+  
+  
+        const safeDate =  
+            activity.date || "No date";  
+  
+  
+        const safeTime =  
+            activity.time || "No time";  
+  
+  
+        const safeArea =  
+            activity.area || "Not specified";  
+  
+  
+        entry.innerHTML = `  
+  
+            <h3>  
+                ${escapeHTML(activity.title)}  
+            </h3>  
+  
+            <div class="meta">  
+                Date: ${escapeHTML(safeDate)}  
+                |  
+                Time: ${escapeHTML(safeTime)}  
+                |  
+                Area: ${escapeHTML(safeArea)}  
+            </div>  
+  
+            <p class="work-description">  
+                ${escapeHTML(activity.description)}  
+            </p>  
+  
+            <div class="entry-photo-container"></div>  
+  
+            <div class="entry-actions">  
+  
+                <button  
+                    class="btn edit-btn"  
+                    onclick="editDailyWork('${activity.id}')">  
+                    Edit  
+                </button>  
+  
+                <button  
+                    class="btn delete-btn"  
+                    onclick="deleteDailyWork('${activity.id}')">  
+                    Delete  
+                </button>  
+  
+            </div>  
+        `;  
+  
+  
+        container.appendChild(entry);  
+  
+  
+        if (activity.photoId) {  
+  
+            try {  
+  
+                const record =  
+                    await getFileFromDB(  
+                        activity.photoId  
+                    );  
+  
+  
+                if (record) {  
+  
+                    const image =  
+                        document.createElement("img");  
+  
+  
+                    image.className =  
+                        "entry-photo";  
+  
+  
+                    image.alt =  
+                        "Work activity photo";  
+  
+  
+                    image.src =  
+                        URL.createObjectURL(  
+                            record.file  
+                        );  
+  
+  
+                    const photoContainer =  
+                        entry.querySelector(  
+                            ".entry-photo-container"  
+                        );  
+  
+  
+                    photoContainer.appendChild(  
+                        image  
+                    );  
+  
+                }  
+  
+            } catch(error) {  
+  
+                console.error(error);  
+  
+            }  
+  
+        }  
+  
+    }  
+  
+}  
+  
+  
+async function editDailyWork(id) {  
+  
+    const activities =  
+        getDailyWork();  
+  
+  
+    const activity =  
+        activities.find(  
+            item => item.id === id  
+        );  
+  
+  
+    if (!activity) return;  
+  
+  
+    const newTitle =  
+        prompt(  
+            "Activity Title:",  
+            activity.title  
+        );  
+  
+  
+    if (newTitle === null) return;  
+  
+  
+    const newDescription =  
+        prompt(  
+            "Activity Description:",  
+            activity.description  
+        );  
+  
+  
+    if (newDescription === null) return;  
+  
+  
+    activity.title =  
+        newTitle.trim() ||  
+        activity.title;  
+  
+  
+    activity.description =  
+        newDescription.trim() ||  
+        activity.description;  
+  
+  
+    saveDailyWork(  
+        activities  
+    );  
+  
+  
+    renderDailyWork();  
+  
+  
+    alert(  
+        "Daily activity updated successfully."  
+    );  
+  
+}  
+  
+  
+async function deleteDailyWork(id) {  
+  
+    const confirmDelete =  
+        confirm(  
+            "Delete this daily activity?"  
+        );  
+  
+  
+    if (!confirmDelete) return;  
+  
+  
+    const activities =  
+        getDailyWork();  
+  
+  
+    const activity =  
+        activities.find(  
+            item => item.id === id  
+        );  
+  
+  
+    if (  
+        activity &&  
+        activity.photoId  
+    ) {  
+  
+        try {  
+  
+            await deleteFileFromDB(  
+                activity.photoId  
+            );  
+  
+        } catch(error) {  
+  
+            console.error(error);  
+  
+        }  
+  
+    }  
+  
+  
+    const updated =  
+        activities.filter(  
+            item => item.id !== id  
+        );  
+  
+  
+    saveDailyWork(  
+        updated  
+    );  
+  
+  
+    renderDailyWork();  
+  
+}  
+  
+  
+/* =========================================================  
+   DOCUMENTS  
+========================================================= */  
+  
+function showDocumentStatus(message) {  
+  
+    const box =  
+        document.getElementById(  
+            "documentStatus"  
+        );  
+  
+    box.textContent =  
+        message;  
+  
+    box.classList.add("show");  
+  
+  
+    setTimeout(() => {  
+  
+        box.classList.remove("show");  
+  
+    }, 2500);  
+  
+}  
+  
+  
+async function uploadDocument() {  
+  
+    const input =  
+        document.getElementById(  
+            "documentFile"  
+        );  
+  
+  
+    const file =  
+        input.files[0];  
+  
+  
+    if (!file) {  
+  
+        alert(  
+            "Please select a document first."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    const allowed =  
+        file.type === "application/pdf" ||  
+        file.type.startsWith("image/");  
+  
+  
+    if (!allowed) {  
+  
+        alert(  
+            "Please select a PDF or image file."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    try {  
+  
+        await saveFileToDB(  
+            file,  
+            "document",  
+            {  
+                name: file.name  
+            }  
+        );  
+  
+  
+        input.value = "";  
+  
+  
+        await renderDocuments();  
+  
+  
+        showDocumentStatus(  
+            "Document uploaded successfully."  
+        );  
+  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not upload the document."  
+        );  
+  
+    }  
+  
+}  
+  
+  
+async function renderDocuments() {  
+  
+    const container =  
+        document.getElementById(  
+            "documentList"  
+        );  
+  
+  
+    try {  
+  
+        const files =  
+            await getAllFilesFromDB();  
+  
+  
+        const documents =  
+            files.filter(  
+                item =>  
+                    item.type === "document"  
+            );  
+  
+  
+        if (documents.length === 0) {  
+  
+            container.innerHTML = `  
+                <div class="empty-message">  
+                    No documents or certificates uploaded yet.  
+                </div>  
+            `;  
+  
+            return;  
+  
+        }  
+  
+  
+        container.innerHTML = "";  
+  
+  
+        documents  
+            .sort(  
+                (a,b) =>  
+                    new Date(b.createdAt) -  
+                    new Date(a.createdAt)  
+            )  
+            .forEach(documentItem => {  
+  
+                const box =  
+                    document.createElement("div");  
+  
+  
+                box.className =  
+                    "document-item";  
+  
+  
+                const date =  
+                    new Date(  
+                        documentItem.createdAt  
+                    ).toLocaleString();  
+  
+  
+                box.innerHTML = `  
+  
+                    <div class="document-name">  
+                        ${escapeHTML(documentItem.name)}  
+                    </div>  
+  
+                    <div class="document-meta">  
+                        Added: ${escapeHTML(date)}  
+                    </div>  
+  
+                    <div class="document-actions">  
+  
+                        <button  
+                            class="btn primary-btn"  
+                            onclick="openDocument(${documentItem.id})">  
+                            Open  
+                        </button>  
+  
+                        <button  
+                            class="btn delete-btn"  
+                            onclick="deleteDocument(${documentItem.id})">  
+                            Delete  
+                        </button>  
+  
+                    </div>  
+                `;  
+  
+  
+                container.appendChild(  
+                    box  
+                );  
+  
+            });  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        container.innerHTML = `  
+            <div class="empty-message">  
+                Documents could not be loaded.  
+            </div>  
+        `;  
+  
+    }  
+  
+}  
+  
+  
+async function openDocument(id) {  
+  
+    try {  
+  
+        const record =  
+            await getFileFromDB(id);  
+  
+  
+        if (!record) {  
+  
+            alert(  
+                "Document could not be found."  
+            );  
+  
+            return;  
+  
+        }  
+  
+  
+        const url =  
+            URL.createObjectURL(  
+                record.file  
+            );  
+  
+  
+        window.open(  
+            url,  
+            "_blank"  
+        );  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not open the document."  
+        );  
+  
+    }  
+  
+}  
+  
+  
+async function deleteDocument(id) {  
+  
+    const confirmDelete =  
+        confirm(  
+            "Delete this document?"  
+        );  
+  
+  
+    if (!confirmDelete) return;  
+  
+  
+    try {  
+  
+        await deleteFileFromDB(  
+            id  
+        );  
+  
+  
+        await renderDocuments();  
+  
+  
+        alert(  
+            "Document deleted successfully."  
+        );  
+  
+    } catch(error) {  
+  
+        console.error(error);  
+  
+        alert(  
+            "Could not delete the document."  
+        );  
+  
+    }  
+  
+}  
+  
+  
+/* =========================================================  
+   HTML SAFETY  
+========================================================= */  
+  
+function escapeHTML(value) {  
+  
+    const div =  
+        document.createElement("div");  
+  
+    div.textContent =  
+        String(value ?? "");  
+  
+    return div.innerHTML;  
+  
+}  
+  
+  
+/* =========================================================  
+   INITIALIZATION  
+========================================================= */  
+  
+document.addEventListener(  
+    "DOMContentLoaded",  
+    async function() {  
+  
+        loadResponsibilities();  
+  
+        renderDailyWork();  
+  
+        renderDocuments();  
+  
+        displayProfilePhoto();  
+  
+        /* Set today's date automatically */  
+  
+        const dateInput =  
+            document.getElementById(  
+                "workDate"  
+            );  
+  
+  
+        if (dateInput) {  
+  
+            const today =  
+                new Date();  
+  
+  
+            const year =  
+                today.getFullYear();  
+  
+  
+            const month =  
+                String(  
+                    today.getMonth() + 1  
+                ).padStart(2, "0");  
+  
+  
+            const day =  
+                String(  
+                    today.getDate()  
+                ).padStart(2, "0");  
+  
+  
+            dateInput.value =  
+                `${year}-${month}-${day}`;  
+  
+        }  
+  
+    }  
+);  
+  
+</script>  </body>  
 </html>
