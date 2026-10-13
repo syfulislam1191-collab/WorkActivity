@@ -1120,36 +1120,25 @@ body {
     </div>  
 
 
-    <div class="card">  
-
-        <h3>Higher Secondary Certificate</h3>  
-
-        <p>  
-            Govt. Bakerganj College  
-        </p>  
-
-        <p>  
-            2014  
-        </p>  
-
-    </div>  
-
-
-    <div class="card">  
-
-        <h3>Secondary School Certificate</h3>  
-
-        <p>  
-            Bakerganj Govt. Pilot High School  
-        </p>  
-
-        <p>  
-            2012  
-        </p>  
-
-    </div>  
-
+    
+<div class="card">  
+    <h3>Higher Secondary Certificate (HSC)</h3>  
+    <p>
+        M.A. Malek Mahabidyalaya<br>
+        Bakerganj, Barishal, Bangladesh
+    </p>
+    <p>2014</p>
 </div>
+
+<div class="card">  
+    <h3>Secondary School Certificate (SSC)</h3>  
+    <p>
+        St. Alfred's High School<br>
+        Bakerganj, Barishal, Bangladesh
+    </p>
+    <p>2012</p>
+</div>
+
 
 </section>  <!-- =========================  
      COURSES  
@@ -3021,44 +3010,45 @@ async function renderDocuments() {
 }  
   
   
-async function openDocument(id) {  
-  
-    try {  
-  
-        const record =  
-            await getFileFromDB(id);  
-  
-  
-        if (!record) {  
-  
-            alert(  
-                "Document could not be found."  
-            );  
-  
-            return;  
-  
-        }  
-  
-  
-        const url =  
-            URL.createObjectURL(  
-                record.file  
-            );  
-  
-  
-        window.open(  
-            url,  
-            "_blank"  
-        );  
-  
-    } catch(error) {  
-  
-        console.error(error);  
-  
-        alert(  
-            "Could not open the document."  
-        );  
-  
+
+async function openDocument(id) {
+    // Open a tab immediately to reduce mobile popup blocking.
+    const newTab = window.open("about:blank", "_blank");
+
+    try {
+        const record = await getFileFromDB(id);
+
+        if (!record) {
+            if (newTab) newTab.close();
+            alert("Document could not be found.");
+            return;
+        }
+
+        const url = URL.createObjectURL(record.file);
+
+        if (newTab) {
+            newTab.location.href = url;
+        } else {
+            // Fallback if the browser blocks the new tab.
+            const link = document.createElement("a");
+            link.href = url;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.click();
+        }
+
+        // Keep the URL available while the document is being viewed.
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+    } catch (error) {
+        console.error("Document open error:", error);
+
+        if (newTab) newTab.close();
+
+        alert("Could not open the document. Please try again.");
+    }
+}
+
     }  
   
 }  
